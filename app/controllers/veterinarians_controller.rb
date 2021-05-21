@@ -8,12 +8,13 @@ class VeterinariansController < ApplicationController
   end
 
   def new
-    @vet_office = VeterinaryOffice.find_by(id: vet_params[:veterinary_office_id])
+    @vet_office = VeterinaryOffice.find(params[:id])
+    @veterinarian = Veterinarian.new
   end
 
   def create
-    @vet_office = VeterinaryOffice.find(vet_params[:veterinary_office_id])
-    veterinarian = Veterinarian.new(vet_params)
+    @vet_office = VeterinaryOffice.find(params[:id])
+    veterinarian = @vet_office.veterinarians.new(vet_params)
 
     if veterinarian.save
       redirect_to "/veterinary_offices/#{@vet_office.id}/veterinarians"

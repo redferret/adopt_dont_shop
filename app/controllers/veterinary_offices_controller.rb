@@ -8,7 +8,7 @@ class VeterinaryOfficesController < ApplicationController
   end
 
   def veterinarians
-    @veterinary_office = VeterinaryOffice.find(params[:veterinary_office_id])
+    @veterinary_office = VeterinaryOffice.find(params[:id])
 
     if params[:sort] == 'alphabetical'
       @office_vets = @veterinary_office.alphabetical_vets
@@ -26,6 +26,7 @@ class VeterinaryOfficesController < ApplicationController
   end
 
   def new
+    @veterinary_office = VeterinaryOffice.new
   end
 
   def create

@@ -12,16 +12,18 @@ class PetsController < ApplicationController
   end
 
   def new
-    @shelter = Shelter.find(params[:shelter_id])
+    @shelter = Shelter.find(params[:id])
+    @pet = Pet.new
   end
 
   def create
-    pet = Pet.new(pet_params)
+    shelter = Shelter.find(params[:id])
+    pet = shelter.pets.new(pet_params)
 
     if pet.save
-      redirect_to "/shelters/#{pet_params[:shelter_id]}/pets"
+      redirect_to "/shelters/#{params[:id]}/pets"
     else
-      redirect_to "/shelters/#{pet_params[:shelter_id]}/pets/new"
+      redirect_to "/shelters/#{params[:id]}/pets/new"
       flash[:alert] = "Error: #{error_message(pet.errors)}"
     end
   end
