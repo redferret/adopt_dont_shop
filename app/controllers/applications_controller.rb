@@ -6,6 +6,10 @@ class ApplicationsController < ApplicationController
   end
 
   def show
+    @application = Application.find(params[:id])
+    @pets = @application.pets
+    @applicant = @application.applicant
+    @address = @applicant.address
   end
 
   def new
