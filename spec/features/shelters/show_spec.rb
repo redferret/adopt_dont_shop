@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'the shelter show' do
   before :all do
-    @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: true, rank: 9)
+    @shelter.pets.create(name: 'garfield', breed: 'shorthair', adoptable: true, age: 1)
   end
 
   before :each do
@@ -20,8 +21,6 @@ RSpec.describe 'the shelter show' do
   end
 
   it "shows the number of pets associated with the shelter" do
-    @shelter.pets.create(name: 'garfield', breed: 'shorthair', adoptable: true, age: 1)
-
     within ".pet-count" do
       expect(page).to have_content(@shelter.pets.count)
     end
@@ -35,11 +34,9 @@ RSpec.describe 'the shelter show' do
   end
 
   it 'displays a link to the shelters pets index' do
-    shelter = Shelter.create(name: 'Lakewood shelter', city: 'Lakewood, CO', foster_program: true, rank: 9)
+    expect(page).to have_link("All pets at #{@shelter.name}")
+    click_link("All pets at #{@shelter.name}")
 
-    expect(page).to have_link("All pets at #{shelter.name}")
-    click_link("All pets at #{shelter.name}")
-
-    expect(page).to have_current_path("/shelters/#{shelter.id}/pets")
+    expect(page).to have_current_path("/shelters/#{@shelter.id}/pets")
   end
 end
