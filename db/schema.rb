@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_000758) do
     t.string "street"
     t.string "city"
     t.string "state"
-    t.decimal "zipcode"
+    t.integer "zipcode"
     t.bigint "applicant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

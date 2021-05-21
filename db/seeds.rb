@@ -13,3 +13,15 @@ end
     FactoryBot.create(:pet, shelter: shelter)
   end
 end
+
+20.times do
+  application = FactoryBot.create(:application)
+  applicant = FactoryBot.create(:applicant, application: application)
+  address = FactoryBot.create(:address, applicant: applicant)
+
+  rand(1..5).times do
+    random_shelter = Shelter.all.sample
+    random_pet = random_shelter.pets.sample
+    application.pets << random_pet
+  end
+end
