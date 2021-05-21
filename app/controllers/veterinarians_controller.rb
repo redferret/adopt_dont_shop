@@ -29,7 +29,7 @@ class VeterinariansController < ApplicationController
 
   def update
     veterinarian = Veterinarian.find(params[:id])
-    if veterinarian.update(vet_params)
+    if veterinarian.update_attributes(vet_params)
       redirect_to "/veterinarians/#{veterinarian.id}"
     else
       redirect_to "/veterinarians/#{veterinarian.id}/edit"
@@ -45,8 +45,7 @@ class VeterinariansController < ApplicationController
   private
 
   def vet_params
-    params.permit(
-      :id,
+    params.require(:veterinarian).permit(
       :name,
       :on_call,
       :review_rating,
