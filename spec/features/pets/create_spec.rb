@@ -22,11 +22,14 @@ RSpec.describe 'pet creation' do
       it 'creates the pet and redirects to the shelter pets index' do
         visit "/shelters/#{@shelter.id}/pets/new"
 
-        fill_in 'Name', with: 'Bumblebee'
-        fill_in 'Age', with: 1
-        fill_in 'Breed', with: 'Welsh Corgi'
-        check 'Adoptable'
-        click_button 'Save'
+        within 'form' do
+          fill_in 'pet_name', with: 'Bumblebee'
+          fill_in 'pet_age', with: 1
+          fill_in 'pet_breed', with: 'Welsh Corgi'
+          check 'pet_adoptable'
+          click_button
+        end
+
         expect(page).to have_current_path("/shelters/#{@shelter.id}/pets")
         expect(page).to have_content('Bumblebee')
       end
@@ -36,7 +39,10 @@ RSpec.describe 'pet creation' do
       it 're-renders the new form' do
         visit "/shelters/#{@shelter.id}/pets/new"
 
-        click_button 'Save'
+        within 'form' do
+          click_button
+        end
+
         expect(page).to have_current_path("/shelters/#{@shelter.id}/pets/new")
         expect(page).to have_content("Error: Name can't be blank, Age can't be blank, Age is not a number")
       end

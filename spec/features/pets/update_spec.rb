@@ -20,10 +20,12 @@ RSpec.describe 'the veterinarian update' do
 
       visit "/pets/#{pet.id}/edit"
 
-      fill_in 'Name', with: 'Itchy'
-      uncheck 'Adoptable'
-      fill_in 'Age', with: 1
-      click_button 'Save'
+      within 'form' do
+        fill_in 'Name', with: 'Itchy'
+        uncheck 'Adoptable'
+        fill_in 'Age', with: 1
+        click_button
+      end
 
       expect(page).to have_current_path("/pets/#{pet.id}")
       expect(page).to have_content('Itchy')
@@ -38,8 +40,10 @@ RSpec.describe 'the veterinarian update' do
 
       visit "/pets/#{pet.id}/edit"
 
-      fill_in 'Name', with: ''
-      click_button 'Save'
+      within 'form' do
+        fill_in 'Name', with: ''
+        click_button
+      end
 
       expect(page).to have_content("Error: Name can't be blank")
       expect(page).to have_current_path("/pets/#{pet.id}/edit")

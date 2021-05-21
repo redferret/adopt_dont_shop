@@ -21,10 +21,13 @@ RSpec.describe 'veterinarian creation' do
       it 'creates the vet and redirects to the veterinary offices vet index' do
         visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
 
-        fill_in 'Name', with: 'Dr. Burstyn'
-        fill_in 'Review rating', with: 10
-        check 'On call'
-        click_button 'Save'
+        within 'form' do
+          fill_in 'veterinarian_name', with: 'Dr. Burstyn'
+          fill_in 'veterinarian_review_rating', with: 10
+          check 'veterinarian_on_call'
+          click_button
+        end
+
         expect(page).to have_current_path(
           "/veterinary_offices/#{@vet_office.id}/veterinarians"
         )
@@ -36,7 +39,10 @@ RSpec.describe 'veterinarian creation' do
       it 're-renders the new form' do
         visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
 
-        click_button 'Save'
+        within 'form' do
+          click_button
+        end
+
         expect(page).to have_current_path(
           "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
         )
