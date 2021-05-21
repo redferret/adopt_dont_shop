@@ -9,6 +9,10 @@ RSpec.describe 'the vet office show' do
     visit "/veterinary_offices/#{@vet_office.id}"
   end
 
+  after :all do
+    VeterinaryOffice.destroy_all
+  end
+
   it "shows the vet office and all it's attributes" do
     expect(page).to have_content(@vet_office.name)
     expect(page).to have_content(@vet_office.max_patient_capacity)

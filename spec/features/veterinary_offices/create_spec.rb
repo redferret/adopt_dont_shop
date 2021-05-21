@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'vet office creation' do
+  after :all do
+    VeterinaryOffice.destroy_all
+  end
+  
   describe 'the vet office new' do
     it 'renders the new form' do
       visit '/veterinary_offices/new'

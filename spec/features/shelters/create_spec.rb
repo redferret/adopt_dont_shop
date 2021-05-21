@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'shelter creation' do
+  before :each do
+    visit '/shelters/new'
+  end
+
+  after :all do
+    Shelter.destroy_all
+  end
+
   describe 'the shelter new' do
     it 'renders the new form' do
-      visit '/shelters/new'
-
       expect(page).to have_content('New Shelter')
       expect(find('form')).to have_content('Name')
       expect(find('form')).to have_content('City')
@@ -16,8 +22,6 @@ RSpec.describe 'shelter creation' do
   describe 'the shelter create' do
     context 'given valid data' do
       it 'creates the shelter' do
-        visit '/shelters/new'
-
         within 'form' do
           fill_in 'shelter_name', with: 'Houston Shelter'
           fill_in 'shelter_city', with: 'Houston'
@@ -33,8 +37,6 @@ RSpec.describe 'shelter creation' do
 
     context 'given invalid data' do
       it 're-renders the new form' do
-        visit '/shelters/new'
-
         within 'form' do
           click_button
         end

@@ -1,14 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe 'veterinarian creation' do
-  before(:each) do
+  before(:all) do
     @vet_office = VeterinaryOffice.create(name: 'Best Vets', boarding_services: true, max_patient_capacity: 20)
+  end
+
+  before :each do
+    visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
+  end
+
+  after :all do
+    VeterinaryOffice.destroy_all
   end
 
   describe 'the veterinarian new' do
     it 'renders the new form' do
-      visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
-
       expect(page).to have_content('New Veterinarian')
       expect(find('form')).to have_content('Name')
       expect(find('form')).to have_content('Review rating')
@@ -19,8 +25,6 @@ RSpec.describe 'veterinarian creation' do
   describe 'the veterinarian create' do
     context 'given valid data' do
       it 'creates the vet and redirects to the veterinary offices vet index' do
-        visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
-
         within 'form' do
           fill_in 'veterinarian_name', with: 'Dr. Burstyn'
           fill_in 'veterinarian_review_rating', with: 10
@@ -37,8 +41,6 @@ RSpec.describe 'veterinarian creation' do
 
     context 'given invalid data' do
       it 're-renders the new form' do
-        visit "/veterinary_offices/#{@vet_office.id}/veterinarians/new"
-
         within 'form' do
           click_button
         end

@@ -4,12 +4,16 @@ RSpec.describe 'the veterinarians index' do
 
   before :all do
     @vet_office = FactoryBot.create(:veterinary_office)
-    @vet_1 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office)
-    @vet_2 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office)
+    @vet_1 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office, on_call:true)
+    @vet_2 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office, on_call:false)
   end
 
   before :each do
     visit '/veterinarians'
+  end
+
+  after :all do
+    VeterinaryOffice.destroy_all
   end
 
   it 'lists all the veterinarians with their attributes' do
@@ -30,7 +34,7 @@ RSpec.describe 'the veterinarians index' do
     expect(page).to have_link("Edit #{@vet_1.name}")
     expect(page).to have_link("Edit #{@vet_2.name}")
 
-    click_link("#delete_vet_#{@vet_1.id}")
+    page.find("#delete_vet_#{@vet_1.id}").click
 
     expect(page).to have_current_path("/veterinarians/#{@vet_1.id}/edit")
   end
@@ -39,7 +43,7 @@ RSpec.describe 'the veterinarians index' do
     expect(page).to have_link("Delete #{@vet_1.name}")
     expect(page).to have_link("Delete #{@vet_2.name}")
 
-    click_link("#delete_vet_#{@vet_2.id}")
+    page.find("#delete_vet_#{@vet_2.id}").click
 
     expect(page).to have_current_path("/veterinarians")
     expect(page).to_not have_content(@vet_1.name)

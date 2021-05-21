@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'the veterinary offices veterinarians index' do
-  before(:each) do
+  before(:all) do
     @vet_office_1 = FactoryBot.create(:veterinary_office)
     @vet_office_2 = FactoryBot.create(:veterinary_office)
     @not_on_call_vet = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_1, on_call: false, review_rating: 10)
@@ -10,6 +10,10 @@ RSpec.describe 'the veterinary offices veterinarians index' do
     @vet_2 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_1, on_call: true, review_rating: 8)
     @vet_3 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_2, on_call: true, review_rating: 9, name:'Donny')
     @vet_4 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_2, on_call: true, review_rating: 2, name:'Alex')
+  end
+
+  after :all do
+    VeterinaryOffice.destroy_all
   end
 
   it 'lists all the veterinarians associated with the office, with their attributes' do
