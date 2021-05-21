@@ -8,7 +8,7 @@ class VeterinaryOfficesController < ApplicationController
   end
 
   def veterinarians
-    @veterinary_office = VeterinaryOffice.find(params[:veterinary_office_id])
+    @veterinary_office = VeterinaryOffice.find(params[:id])
 
     if params[:sort] == 'alphabetical'
       @office_vets = @veterinary_office.alphabetical_vets
@@ -26,6 +26,7 @@ class VeterinaryOfficesController < ApplicationController
   end
 
   def new
+    @veterinary_office = VeterinaryOffice.new
   end
 
   def create
@@ -40,12 +41,12 @@ class VeterinaryOfficesController < ApplicationController
   end
 
   def edit
-    @vet_office = VeterinaryOffice.find(params[:id])
+    @veterinary_office = VeterinaryOffice.find(params[:id])
   end
 
   def update
     vet_office = VeterinaryOffice.find(params[:id])
-    if vet_office.update(vet_office_params)
+    if vet_office.update_attributes(vet_office_params)
       redirect_to '/veterinary_offices'
     else
       redirect_to "/veterinary_offices/#{vet_office.id}/edit"
@@ -62,6 +63,6 @@ class VeterinaryOfficesController < ApplicationController
   private
 
   def vet_office_params
-    params.permit(:name, :max_patient_capacity, :boarding_services)
+    params.require(:veterinary_office).permit(:name, :max_patient_capacity, :boarding_services)
   end
 end

@@ -10,7 +10,7 @@ class SheltersController < ApplicationController
   end
 
   def pets
-    @shelter = Shelter.find(params[:shelter_id])
+    @shelter = Shelter.find(params[:id])
 
     if params[:sort] == 'alphabetical'
       @shelter_pets = @shelter.alphabetical_pets
@@ -26,6 +26,7 @@ class SheltersController < ApplicationController
   end
 
   def new
+    @shelter = Shelter.new
   end
 
   def create
@@ -44,8 +45,8 @@ class SheltersController < ApplicationController
   end
 
   def update
-    shelter = Shelter.find(shelter_params[:id])
-    if shelter.update(shelter_params)
+    shelter = Shelter.find(params[:id])
+    if shelter.update_attributes(shelter_params)
       redirect_to '/shelters'
     else
       redirect_to "/shelters/#{shelter.id}/edit"
@@ -62,6 +63,6 @@ class SheltersController < ApplicationController
   private
 
   def shelter_params
-    params.permit(:id, :name, :city, :foster_program, :rank)
+    params.require(:shelter).permit(:name, :city, :foster_program, :rank)
   end
 end

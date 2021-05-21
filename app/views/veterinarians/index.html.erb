@@ -3,6 +3,6 @@
   <h3><%= vet.name %></h3>
   <p>Rating: <%= vet.review_rating %></p>
   <p>Practice: <%= vet.office_name %></p>
-  <%= link_to "Edit #{vet.name}", "/veterinarians/#{vet.id}/edit" %>
-  <%= link_to "Delete #{vet.name}", "/veterinarians/#{vet.id}", method: :delete %>
+  <%= link_to "Edit #{vet.name}", "/veterinarians/#{vet.id}/edit", id: "edit_vet_#{vet.id}" %>
+  <%= link_to "Delete #{vet.name}", "/veterinarians/#{vet.id}", method: :delete, id: "delete_vet_#{vet.id}"%>
 <% end %>

@@ -1,10 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'the shelter update' do
-  it "shows the shelter edit form" do
-    shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+  before :all do
+    @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+  end
 
-    visit "/shelters/#{shelter.id}/edit"
+  before :each do
+    visit "/shelters/#{@shelter.id}/edit"
+  end
+
+  after :all do
+    Shelter.destroy_all
+  end
+  it "shows the shelter edit form" do
 
     expect(find('form')).to have_content('Name')
     expect(find('form')).to have_content('City')
@@ -14,15 +22,13 @@ RSpec.describe 'the shelter update' do
 
   context "given valid data" do
     it "submits the edit form and updates the shelter" do
-      shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-
-      visit "/shelters/#{shelter.id}/edit"
-
-      fill_in 'Name', with: 'Wichita Shelter'
-      fill_in 'City', with: 'Wichita'
-      uncheck 'Foster program'
-      fill_in 'Rank', with: 10
-      click_button 'Save'
+      within 'form' do
+        fill_in 'shelter_name', with: 'Wichita Shelter'
+        fill_in 'shelter_city', with: 'Wichita'
+        uncheck 'shelter_foster_program'
+        fill_in 'shelter_rank', with: 10
+        click_button
+      end
 
       expect(page).to have_current_path('/shelters')
       expect(page).to have_content('Wichita Shelter')
@@ -32,17 +38,15 @@ RSpec.describe 'the shelter update' do
 
   context "given invalid data" do
     it 're-renders the edit form' do
-      shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-
-      visit "/shelters/#{shelter.id}/edit"
-
-      fill_in 'Name', with: ''
-      fill_in 'City', with: 'Wichita'
-      uncheck 'Foster program'
-      click_button 'Save'
+      within 'form' do
+        fill_in 'shelter_name', with: ''
+        fill_in 'shelter_city', with: 'Wichita'
+        uncheck 'shelter_foster_program'
+        click_button
+      end
 
       expect(page).to have_content("Error: Name can't be blank")
-      expect(page).to have_current_path("/shelters/#{shelter.id}/edit")
+      expect(page).to have_current_path("/shelters/#{@shelter.id}/edit")
     end
   end
 end

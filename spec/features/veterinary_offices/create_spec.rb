@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'vet office creation' do
+  after :all do
+    VeterinaryOffice.destroy_all
+  end
+  
   describe 'the vet office new' do
     it 'renders the new form' do
       visit '/veterinary_offices/new'
@@ -17,9 +21,12 @@ RSpec.describe 'vet office creation' do
       it 'creates the vet office' do
         visit '/veterinary_offices/new'
 
-        fill_in 'Name', with: 'Houston Vet Office'
-        fill_in 'Max patient capacity', with: 75
-        click_button 'Save'
+        within 'form' do
+          fill_in 'veterinary_office_name', with: 'Houston Vet Office'
+          fill_in 'veterinary_office_max_patient_capacity', with: 75
+          check 'veterinary_office_boarding_services'
+          click_button
+        end
 
         expect(page).to have_current_path('/veterinary_offices')
         expect(page).to have_content('Houston Vet Office')
@@ -29,7 +36,9 @@ RSpec.describe 'vet office creation' do
     context 'given invalid data' do
       it 're-renders the new form' do
         visit '/veterinary_offices/new'
-        click_button 'Save'
+        within 'form' do
+          click_button
+        end
 
         expect(page).to have_content("Error: Name can't be blank, Max patient capacity can't be blank, Max patient capacity is not a number")
         expect(page).to have_current_path('/veterinary_offices/new')

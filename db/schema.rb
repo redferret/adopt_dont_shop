@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_212400) do
+ActiveRecord::Schema.define(version: 2021_05_21_000758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_212400) do
     t.string "street"
     t.string "city"
     t.string "state"
-    t.decimal "zipcode"
+    t.integer "zipcode"
     t.bigint "applicant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,6 +39,13 @@ ActiveRecord::Schema.define(version: 2021_05_20_212400) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "applications_pets", id: false, force: :cascade do |t|
+    t.bigint "application_id", null: false
+    t.bigint "pet_id", null: false
+    t.index ["application_id"], name: "index_applications_pets_on_application_id"
+    t.index ["pet_id"], name: "index_applications_pets_on_pet_id"
   end
 
   create_table "pets", force: :cascade do |t|

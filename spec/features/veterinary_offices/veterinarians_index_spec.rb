@@ -1,14 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'the veterinary offices veterinarians index' do
-  before(:each) do
-    @vet_office_1 = VeterinaryOffice.create(name: 'Best Vets', boarding_services: true, max_patient_capacity: 20)
-    @vet_office_2 = VeterinaryOffice.create(name: 'Vets R Us', boarding_services: true, max_patient_capacity: 20)
-    @not_on_call_vet = Veterinarian.create(name: 'Taylor', review_rating: 10, on_call: false, veterinary_office_id: @vet_office_1.id)
-    @vet_1 = Veterinarian.create(name: 'Taylor', review_rating: 10, on_call: true, veterinary_office_id: @vet_office_1.id)
-    @vet_2 = Veterinarian.create(name: 'Jim', review_rating: 8, on_call: true, veterinary_office_id: @vet_office_1.id)
-    @vet_3 = Veterinarian.create(name: 'Sarah', review_rating: 9, on_call: true, veterinary_office_id: @vet_office_2.id)
-    @vet_4 = Veterinarian.create(name: 'John', review_rating: 2, on_call: true, veterinary_office_id: @vet_office_2.id)
+  before(:all) do
+    @vet_office_1 = FactoryBot.create(:veterinary_office)
+    @vet_office_2 = FactoryBot.create(:veterinary_office)
+    @not_on_call_vet = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_1, on_call: false, review_rating: 10)
+
+    @vet_1 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_1, on_call: true, review_rating: 10)
+    @vet_2 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_1, on_call: true, review_rating: 8)
+    @vet_3 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_2, on_call: true, review_rating: 9, name:'Donny')
+    @vet_4 = FactoryBot.create(:veterinarian, veterinary_office: @vet_office_2, on_call: true, review_rating: 2, name:'Alex')
+  end
+
+  after :all do
+    VeterinaryOffice.destroy_all
   end
 
   it 'lists all the veterinarians associated with the office, with their attributes' do
