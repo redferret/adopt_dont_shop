@@ -20,30 +20,25 @@ RSpec.describe 'the veterinarians index' do
     expect(page).to have_content(@vet_1.name)
     expect(page).to have_content(@vet_1.review_rating)
     expect(page).to have_content(@vet_office.name)
-
-    expect(page).to have_content(@vet_2.name)
-    expect(page).to have_content(@vet_2.review_rating)
-    expect(page).to have_content(@vet_office.name)
   end
 
   it 'only shows on call veterinarians' do
-    expect(page).to_not have_content(@vet_1.name)
+    expect(page).to have_content(@vet_1.name)
+    expect(page).to_not have_content(@vet_2.name)
   end
 
   it 'displays a link to edit each veterinarian' do
     expect(page).to have_link("Edit #{@vet_1.name}")
-    expect(page).to have_link("Edit #{@vet_2.name}")
 
-    page.find("#delete_vet_#{@vet_1.id}").click
+    page.find("#edit_vet_#{@vet_1.id}").click
 
     expect(page).to have_current_path("/veterinarians/#{@vet_1.id}/edit")
   end
 
   it 'displays a link to delete each veterinarian' do
     expect(page).to have_link("Delete #{@vet_1.name}")
-    expect(page).to have_link("Delete #{@vet_2.name}")
 
-    page.find("#delete_vet_#{@vet_2.id}").click
+    page.find("#delete_vet_#{@vet_1.id}").click
 
     expect(page).to have_current_path("/veterinarians")
     expect(page).to_not have_content(@vet_1.name)
