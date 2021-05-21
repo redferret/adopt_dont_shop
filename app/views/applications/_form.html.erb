@@ -1,4 +1,4 @@
-<%= form_with(model: application, local: true) do |form| %>
+<%= form_with(model: application, local: true, id: 'applications_form') do |form| %>
   <% if application.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(application.errors.count, "error") %> prohibited this application from being saved:</h2>
@@ -11,14 +11,37 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+  <div class='field'>
+    <%= label :applicant, :name, "Applicant's Name" %>
+    <%= text_field :applicant, :name %>
+  </div>
+
+  <div class='field'>
+    <strong>Address:</strong>
+    <div class='field'>
+      <%= label :address, :street, 'Street:' %>
+      <%= text_field :address, :street %>
+    </div>
+
+    <div class='field'>
+      <%= label :address, :city, 'City:' %>
+      <%= text_field :address, :city %>
+    </div>
+
+    <div class='field'>
+      <%= label :address, :state, 'State:' %>
+      <%= text_field :address, :state %>
+    </div>
+
+    <div class='field'>
+      <%= label :address, :zipcode, 'Zipcode:' %>
+      <%= text_field :address, :zipcode %>
+    </div>
   </div>
 
   <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.label :description, 'Descriptive reason why to adopt:' %>
+    <%= form.text_area :description %>
   </div>
 
   <div class="actions">
