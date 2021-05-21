@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   resources :applications
 
   get '/', to: 'application#welcome'
@@ -32,11 +32,11 @@ Rails.application.routes.draw do
   patch '/veterinarians/:id', to: 'veterinarians#update'
   delete '/veterinarians/:id', to: 'veterinarians#destroy'
 
-  get '/shelters/:shelter_id/pets', to: 'shelters#pets'
-  get '/shelters/:shelter_id/pets/new', to: 'pets#new'
-  post '/shelters/:shelter_id/pets', to: 'pets#create'
+  get '/shelters/:id/pets/new', to: 'pets#new'
+  get '/shelters/:id/pets', to: 'shelters#pets'
+  post '/shelters/:id/pets', to: 'pets#create'
 
-  get '/veterinary_offices/:veterinary_office_id/veterinarians', to: 'veterinary_offices#veterinarians'
-  get '/veterinary_offices/:veterinary_office_id/veterinarians/new', to: 'veterinarians#new'
-  post '/veterinary_offices/:veterinary_office_id/veterinarians', to: 'veterinarians#create'
+  get '/veterinary_offices/:id/veterinarians/new', to: 'veterinarians#new'
+  get '/veterinary_offices/:id/veterinarians', to: 'veterinary_offices#veterinarians'
+  post '/veterinary_offices/:id/veterinarians', to: 'veterinarians#create'
 end
