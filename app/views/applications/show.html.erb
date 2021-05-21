@@ -1,6 +1,30 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Applicant's Name:</strong>
+  <%= @applicant.name %>
+</p>
+
+<p>
+  <strong>Pets:</strong>
+  <ul>
+    <% @pets.each do |pet| %>
+      <li>
+        <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
+      </li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <strong>Applicant's Address:</strong>
+  <p>Street: <%= @address.street %></p>
+  <p>City: <%= @address.city %></p>
+  <p>State: <%= @address.state %></p>
+  <p>Zip: <%= @address.zipcode %></p>
+</p>
+
+<p>
   <strong>Description:</strong>
   <%= @application.description %>
 </p>
@@ -10,5 +34,5 @@
   <%= @application.status %>
 </p>
 
-<%= link_to 'Edit', edit_application_path(@application) %> |
-<%= link_to 'Back', applications_path %>
+<%= link_to 'Edit', edit_application_path(@application), id: 'edit_application' %> |
+<%= link_to 'Back', applications_path, id: 'back_to_index' %>
