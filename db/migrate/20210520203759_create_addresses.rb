@@ -5,9 +5,11 @@ class CreateAddresses < ActiveRecord::Migration[5.2]
       t.string :city
       t.string :state
       t.numeric :zipcode
-      t.belongs_to :applicant, foreign_key: true
+      t.bigint :applicant_id
 
       t.timestamps
     end
+
+    add_index :addresses, :applicant_id
   end
 end
