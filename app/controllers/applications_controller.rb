@@ -21,10 +21,24 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    @application = Application.new(application_params)
-
+    check_application_status
     respond_to do |format|
+      @application = Application.new(application_params)
       if @application.save
+        @applicant = Applicant.new(applicant_params)
+
+        if !@applicant.save
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @applicant.errors, status: :unprocessable_entity }
+        end
+
+        @address = Address.new(address_params)
+
+        if !@address.save
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @address.errors, status: :unprocessable_entity }
+        end
+        
         format.html { redirect_to @application, notice: "Application was successfully created." }
         format.json { render :show, status: :created, location: @application }
       else
@@ -59,7 +73,21 @@ class ApplicationsController < ApplicationController
       @application = Application.find(params[:id])
     end
 
+    def check_application_status
+      params[:application][:status] = 'In Progress' if not params[:application][:status].present?
+    end
+
+    def address_params
+      params[:address][:applicant_id] = @applicant.id if not params[:address][:applicant_id].present?
+      params.require(:address).permit(:street, :city, :state, :zipcode, :applicant_id)
+    end
+
+    def applicant_params
+      params[:applicant][:application_id] = @application.id if not params[:applicant][:application_id].present?
+      params.require(:applicant).permit(:name, :application_id)
+    end
+
     def application_params
-      params.require(:application).permit(:description, :status, :applicant)
+      params.require(:application).permit(:description, :status)
     end
 end
