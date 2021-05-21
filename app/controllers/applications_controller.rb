@@ -6,7 +6,7 @@ class ApplicationsController < ApplicationController
   end
 
   def show
-    @application = Application.find(params[:id])
+    @application = set_application
     @pets = @application.pets
     @applicant = @application.applicant
     @address = @applicant.address
@@ -17,6 +17,7 @@ class ApplicationsController < ApplicationController
   end
 
   def edit
+    @application = set_application
   end
 
   def create
