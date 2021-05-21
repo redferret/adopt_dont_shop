@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'The partial form for applications,', type: :view do
-  after :all do
-    Application.destroy_all
-  end
-
   describe 'fields,' do
     before :each do
       render partial: 'applications/form', locals: { application: Application.new }
