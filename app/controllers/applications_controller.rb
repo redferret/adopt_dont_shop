@@ -28,22 +28,24 @@ class ApplicationsController < ApplicationController
         @applicant = Applicant.new(applicant_params)
 
         if !@applicant.save
+          @application.delete
+          flash[:alert] = "Error: #{error_message(@applicant.errors)}"
           format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @applicant.errors, status: :unprocessable_entity }
         end
 
         @address = Address.new(address_params)
 
         if !@address.save
+          @application.delete
+          @applicant.delete
+          flash[:alert] = "Error: #{error_message(@address.errors)}"
           format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @address.errors, status: :unprocessable_entity }
         end
-        
+
         format.html { redirect_to @application, notice: "Application was successfully created." }
-        format.json { render :show, status: :created, location: @application }
       else
+        flash[:alert] = "Error: #{error_message(@application.errors)}"
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @application.errors, status: :unprocessable_entity }
       end
     end
   end
