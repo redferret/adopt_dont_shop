@@ -2,7 +2,7 @@ class Pet < ApplicationRecord
   validates :name, presence: true
   validates :age, presence: true, numericality: true
   belongs_to :shelter
-  belongs_to :application, optional: true, foreign_key: true
+  has_and_belongs_to_many :applications
 
   def shelter_name
     shelter.name
