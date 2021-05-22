@@ -1,14 +1,14 @@
 <%= form_with(model: application, local: true, id: 'applications_form') do |form| %>
   <div class='field'>
     <%= label :applicant, :name, "Applicant's Name" %>
-    <%= text_field :applicant, :name, value: applicant&.name %>
+    <%= text_field :applicant, :name, value: applicant.name %>
   </div>
 
-  <%= render partial: 'applications/address', locals: { address: applicant&.address } %>
+  <%= render partial: 'applications/address', locals: { address: applicant.address } %>
 
   <% if application.not_new %>
     <div class="field">
-      <%= form.label :description, 'Descriptive reason why to adopt:' %>
+      <%= form.label :description, 'Why I would make a good home:' %>
       <%= form.text_area :description, disabled: application.can_not_edit_description %>
     </div>
   <% end %>

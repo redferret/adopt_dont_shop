@@ -5,34 +5,42 @@
   <%= @applicant.name %>
 </p>
 
-<p>
-  <strong>Pets:</strong>
-  <ul>
-    <% @pets.each do |pet| %>
-      <li>
-        <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
-      </li>
-    <% end %>
-  </ul>
-</p>
+<div id='search_for_pet_section'>
+  <strong>Add a Pet to this Application</strong>
+  <%= form_with(model: @application, local: true, id: 'search_pet_form') do |form| %>
+    <%= form.label :search_pet_by, 'Search for a pet by:' %>
+    <%= form.text_field :search_pet_by, value: '' %>
+    <%= form.submit %>
+  <% end %>
 
-<p>
-  <strong>Applicant's Address:</strong>
-  <p>Street: <%= @address.street %></p>
-  <p>City: <%= @address.city %></p>
-  <p>State: <%= @address.state %></p>
-  <p>Zip: <%= @address.zipcode %></p>
-</p>
+  <div id='pets_found_by'>
+    <strong>Pets found with search:</strong>
+    <ul>
+      <% @pets_found.each do |pet_found| %>
+        <li>
+          <%= pet_found.name %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-<p>
-  <strong>Why I would make a good home:</strong>
-  <%= @application.description %>
-</p>
+  <div id='pets_on_application'>
+    <strong>Pets requested for adoption:</strong>
+    <ul>
+      <% @pets.each do |pet| %>
+        <li>
+          <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<%= render partial: 'applications/form', locals: {application: @application, applicant: @applicant} %>
 
 <p>
   <strong>Status:</strong>
   <%= @application.status %>
 </p>
 
-<%= link_to 'Edit', edit_application_path(@application), id: 'edit_application' %> |
 <%= link_to 'Back', applications_path, id: 'back_to_index' %>
