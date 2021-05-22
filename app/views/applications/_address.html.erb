@@ -1,0 +1,22 @@
+<div class='field'>
+  <strong>Address:</strong>
+  <div class='field'>
+    <%= label :address, :street, 'Street:' %>
+    <%= text_field :address, :street, value: address&.street %>
+  </div>
+
+  <div class='field'>
+    <%= label :address, :city, 'City:' %>
+    <%= text_field :address, :city, value: address&.city %>
+  </div>
+
+  <div class='field'>
+    <%= label :address, :state, 'State:' %>
+    <%= text_field :address, :state, value: address&.state %>
+  </div>
+
+  <div class='field'>
+    <%= label :address, :zipcode, 'Zipcode:' %>
+    <%= text_field :address, :zipcode, value: address&.zipcode %>
+  </div>
+</div>

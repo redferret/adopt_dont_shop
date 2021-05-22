@@ -1,31 +1,10 @@
 <%= form_with(model: application, local: true, id: 'applications_form') do |form| %>
   <div class='field'>
     <%= label :applicant, :name, "Applicant's Name" %>
-    <%= text_field :applicant, :name %>
+    <%= text_field :applicant, :name, value: applicant&.name %>
   </div>
 
-  <div class='field'>
-    <strong>Address:</strong>
-    <div class='field'>
-      <%= label :address, :street, 'Street:' %>
-      <%= text_field :address, :street %>
-    </div>
-
-    <div class='field'>
-      <%= label :address, :city, 'City:' %>
-      <%= text_field :address, :city %>
-    </div>
-
-    <div class='field'>
-      <%= label :address, :state, 'State:' %>
-      <%= text_field :address, :state %>
-    </div>
-
-    <div class='field'>
-      <%= label :address, :zipcode, 'Zipcode:' %>
-      <%= text_field :address, :zipcode %>
-    </div>
-  </div>
+  <%= render partial: 'applications/address', locals: { address: applicant&.address } %>
 
   <div class="field">
     <%= form.label :description, 'Descriptive reason why to adopt:' %>

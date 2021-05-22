@@ -1,23 +1,20 @@
 class ApplicationsController < ApplicationController
-  before_action :set_application, only: %i[ show edit update destroy ]
+  before_action :set_all_models, only: %i[ show edit update destroy ]
 
   def index
     @applications = Application.all
   end
 
   def show
-    @application = set_application
-    @pets = @application.pets
-    @applicant = @application.applicant
-    @address = @applicant.address
   end
 
   def new
     @application = Application.new
+    @applicant = Applicant.new
+    @address = Address.new
   end
 
   def edit
-    @application = set_application
   end
 
   def create
@@ -40,9 +37,9 @@ class ApplicationsController < ApplicationController
           @applicant.delete
           flash[:alert] = "Error: #{error_message(@address.errors)}"
           format.html { render :new, status: :unprocessable_entity }
+        else
+          format.html { redirect_to @application, notice: "Application was successfully created." }
         end
-
-        format.html { redirect_to @application, notice: "Application was successfully created." }
       else
         flash[:alert] = "Error: #{error_message(@application.errors)}"
         format.html { render :new, status: :unprocessable_entity }
@@ -53,11 +50,20 @@ class ApplicationsController < ApplicationController
   def update
     respond_to do |format|
       if @application.update(application_params)
-        format.html { redirect_to @application, notice: "Application was successfully updated." }
-        format.json { render :show, status: :ok, location: @application }
+        if !@applicant.update(applicant_params)
+          flash[:alert] = "Error: #{error_message(@applicant.errors)}"
+          format.html { render :edit, status: :unprocessable_entity }
+        end
+
+        if !@address.update(address_params)
+          flash[:alert] = "Error: #{error_message(@address.errors)}"
+          format.html { render :edit, status: :unprocessable_entity }
+        else
+          format.html { render :show, status: :ok, location: @application }
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @application.errors, status: :unprocessable_entity }
+        flash[:alert] = "Error: #{error_message(@application.errors)}"
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -66,13 +72,19 @@ class ApplicationsController < ApplicationController
     @application.destroy
     respond_to do |format|
       format.html { redirect_to applications_url, notice: "Application was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
   private
     def set_application
       @application = Application.find(params[:id])
+    end
+
+    def set_all_models
+      @application = set_application
+      @pets = @application.pets
+      @applicant = @application.applicant
+      @address = @applicant.address
     end
 
     def check_application_status
