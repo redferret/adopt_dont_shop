@@ -6,10 +6,12 @@
 
   <%= render partial: 'applications/address', locals: { address: applicant&.address } %>
 
-  <div class="field">
-    <%= form.label :description, 'Descriptive reason why to adopt:' %>
-    <%= form.text_area :description %>
-  </div>
+  <% if application.not_new %>
+    <div class="field">
+      <%= form.label :description, 'Descriptive reason why to adopt:' %>
+      <%= form.text_area :description, disabled: application.can_not_edit_description %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>
