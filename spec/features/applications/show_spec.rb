@@ -82,7 +82,43 @@ RSpec.describe 'The applications show page,' do
     end
   end
 
-  describe 'search and add pet,' do
+  describe 'adding pet,' do
+    before :each do
+      visit application_path(@application.id)
+    end
+
+    it 'has a button next to each found pet' do
+      within '#search_pet_form' do
+        fill_in 'application[search_pet_by]', with: 'Spot'
+        click_button
+      end
+
+      within '#pets_found_by' do
+        expect(page).to have_link('Adopt this Pet')
+      end
+    end
+
+    describe 'adopt pet button,' do
+      it 'adds the pet to the application' do
+        within '#search_pet_form' do
+          fill_in 'application[search_pet_by]', with: 'Spot'
+          click_button
+        end
+
+        within '#pets_found_by' do
+          click_link
+        end
+
+        current_path.should eq application_path(@application.id)
+
+        within '#pets_on_application' do
+          expect(page).to have_link(@pet_1.name)
+        end
+      end
+    end
+  end
+
+  describe 'search pet,' do
     before :each do
       visit application_path(@application.id)
     end
@@ -99,7 +135,7 @@ RSpec.describe 'The applications show page,' do
       end
     end
 
-    it 'lets the user see a list of pets after submitting a search by' do
+    it 'lets the user see a list of pets after submitting a search' do
       within '#search_pet_form' do
         fill_in 'application[search_pet_by]', with: 's'
         click_button
