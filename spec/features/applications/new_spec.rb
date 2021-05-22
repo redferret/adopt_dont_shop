@@ -24,7 +24,6 @@ RSpec.describe 'The new application page,' do
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
-        fill_in 'application[description]', with: 'I have the best home for these babies!'
         click_button
       end
 
@@ -36,21 +35,6 @@ RSpec.describe 'The new application page,' do
       expect(page).to have_content(new_street_name)
     end
 
-    it 'navigates back to the new page with errors on the application model' do
-      within 'form' do
-        fill_in 'applicant[name]', with: Faker::Name.name
-        fill_in 'address[street]', with: Faker::Address.street_name
-        fill_in 'address[state]', with: Faker::Address.state_abbr
-        fill_in 'address[city]', with: Faker::Address.city
-        fill_in 'address[zipcode]', with: Faker::Address.zip
-        fill_in 'application[description]', with: ''
-        click_button
-      end
-
-      current_path.should eq applications_path
-      expect(page).to have_content("Error: Description can't be blank")
-    end
-
     it 'navigates back to the new page with errors on the address model' do
       within 'form' do
         fill_in 'applicant[name]', with: Faker::Name.name
@@ -58,7 +42,6 @@ RSpec.describe 'The new application page,' do
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
-        fill_in 'application[description]', with: 'I have the best home for these babies!'
         click_button
       end
 
@@ -73,7 +56,6 @@ RSpec.describe 'The new application page,' do
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
-        fill_in 'application[description]', with: 'I have the best home for these babies!'
         click_button
       end
 

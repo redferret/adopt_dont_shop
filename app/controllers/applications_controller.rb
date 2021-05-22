@@ -18,9 +18,8 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    check_application_status
     respond_to do |format|
-      @application = Application.new(application_params)
+      @application = Application.new(description:'', status: 'In Progress')
       if @application.save
         @applicant = Applicant.new(applicant_params)
 
@@ -85,10 +84,6 @@ class ApplicationsController < ApplicationController
       @pets = @application.pets
       @applicant = @application.applicant
       @address = @applicant.address
-    end
-
-    def check_application_status
-      params[:application][:status] = 'In Progress' if not params[:application][:status].present?
     end
 
     def address_params
