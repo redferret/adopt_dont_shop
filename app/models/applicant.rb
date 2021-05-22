@@ -7,5 +7,7 @@ class Applicant < ApplicationRecord
 
 
   def set_defaults
+    self.name ||= ''
+    self.address ||= Address.new
   end
 end

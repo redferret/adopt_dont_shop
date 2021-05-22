@@ -20,14 +20,14 @@ RSpec.describe 'The partial form for applications,', type: :view do
     end
 
     it 'has an input for an applicants name' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content("Applicant's Name")
         expect(page).to have_field('applicant[name]')
       end
     end
 
     it 'has inputs for the applicants address' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content('Street:')
         expect(page).to have_field('address[street]')
 
@@ -43,36 +43,16 @@ RSpec.describe 'The partial form for applications,', type: :view do
     end
 
     it 'has a description box' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content('Descriptive reason why to adopt:')
         expect(page).to have_field('application[description]')
       end
     end
 
     it 'has a submit button' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_selector("input", type: 'submit')
       end
     end
-  end
-
- # Move this test to the edit_spec file
-  xit 'submit button navigates to the show page of the updated application' do
-    new_name = Fake::Name.name
-    new_street_name = Faker::Address.street
-
-    within 'form' do
-      fill_in 'applicant[name]', with: new_name
-      fill_in 'address[street]', with: new_street_name
-      fill_in 'address[state]', with: Fake::Addresss.state_abbr
-      fill_in 'address[city]', with: Fake::Addresss.city
-      fill_in 'address[zipcode]', with: Faker::Address.zip
-      fill_in 'application[description]', with: 'I have the best home for these babies!'
-      click_button
-    end
-
-    new_application = Application.last.order(:id, :asc).limit(1)
-
-    current_path.should eq "/applications/#{new_application.id}"
   end
 end

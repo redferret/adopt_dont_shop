@@ -10,8 +10,6 @@ class ApplicationsController < ApplicationController
 
   def new
     @application = Application.new
-    @applicant = Applicant.new
-    @address = Address.new
   end
 
   def edit
@@ -47,22 +45,28 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @application.update(application_params)
-        if !@applicant.update(applicant_params)
-          flash[:alert] = "Error: #{error_message(@applicant.errors)}"
-          format.html { render :edit, status: :unprocessable_entity }
-        end
+    if params[:application][:search_pet_by].present?
+      search_pet_by = params[:application][:search_pet_by]
+      @pets_found = Pet.search(search_pet_by)
+      render :show, status: :ok, location: @application
+    else
+      respond_to do |format|
+        if @application.update(application_params)
+          if !@applicant.update(applicant_params)
+            flash[:alert] = "Error: #{error_message(@applicant.errors)}"
+            format.html { render :edit, status: :unprocessable_entity }
+          end
 
-        if !@address.update(address_params)
-          flash[:alert] = "Error: #{error_message(@address.errors)}"
-          format.html { render :edit, status: :unprocessable_entity }
+          if !@address.update(address_params)
+            flash[:alert] = "Error: #{error_message(@address.errors)}"
+            format.html { render :edit, status: :unprocessable_entity }
+          else
+            format.html { render :show, status: :ok, location: @application }
+          end
         else
-          format.html { render :show, status: :ok, location: @application }
+          flash[:alert] = "Error: #{error_message(@application.errors)}"
+          format.html { render :new, status: :unprocessable_entity }
         end
-      else
-        flash[:alert] = "Error: #{error_message(@application.errors)}"
-        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -84,6 +88,7 @@ class ApplicationsController < ApplicationController
       @pets = @application.pets
       @applicant = @application.applicant
       @address = @applicant.address
+      @pets_found = []
     end
 
     def address_params

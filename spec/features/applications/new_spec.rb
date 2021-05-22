@@ -15,12 +15,9 @@ RSpec.describe 'The new application page,' do
 
   describe 'submit button,' do
     it 'navigates to the show page of the new application with valid input' do
-      new_name = Faker::Name.name
-      new_street_name = Faker::Address.street_name
-
-      within 'form' do
-        fill_in 'applicant[name]', with: new_name
-        fill_in 'address[street]', with: new_street_name
+      within '#applications_form' do
+        fill_in 'applicant[name]', with: Faker::Name.name
+        fill_in 'address[street]', with: Faker::Address.street_name
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
@@ -31,12 +28,18 @@ RSpec.describe 'The new application page,' do
 
       current_path.should eq application_path(new_application.id)
 
-      expect(page).to have_content(new_name)
-      expect(page).to have_content(new_street_name)
+      new_applicant = new_application.applicant
+      new_address = new_applicant.address
+
+      expect(page).to have_content(new_applicant.name)
+      expect(page).to have_field('address[street]', with: new_address.street)
+      expect(page).to have_field('address[state]', with: new_address.state)
+      expect(page).to have_field('address[city]', with: new_address.city)
+      expect(page).to have_field('address[zipcode]', with: new_address.zipcode)
     end
 
     it 'navigates back to the new page with errors on the address model' do
-      within 'form' do
+      within '#applications_form' do
         fill_in 'applicant[name]', with: Faker::Name.name
         fill_in 'address[street]', with: ''
         fill_in 'address[state]', with: Faker::Address.state_abbr
@@ -50,7 +53,7 @@ RSpec.describe 'The new application page,' do
     end
 
     it 'navigates back to the new page with errors on the applicant model' do
-      within 'form' do
+      within '#applications_form' do
         fill_in 'applicant[name]', with: ''
         fill_in 'address[street]', with: Faker::Address.street_name
         fill_in 'address[state]', with: Faker::Address.state_abbr
@@ -60,7 +63,6 @@ RSpec.describe 'The new application page,' do
       end
 
       current_path.should eq applications_path
-      # Come back here!
       expect(page).to have_content("Error: Applicant must exist")
     end
   end
