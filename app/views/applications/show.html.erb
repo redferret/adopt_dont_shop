@@ -10,7 +10,7 @@
   <%= form_with(model: @application, local: true, id: 'search_pet_form') do |form| %>
     <%= form.label :search_pet_by, 'Search for a pet by:' %>
     <%= form.text_field :search_pet_by, value: '' %>
-    <%= form.submit %>
+    <%= form.submit 'Search' %>
   <% end %>
 
   <div id='pets_found_by'>
