@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'the pets index' do
+RSpec.describe 'the pets index,' do
   before :all do
     @shelter = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     @pet_1 = Pet.create(adoptable: true, age: 1, breed: 'sphynx', name: 'Lucille Bald', shelter_id: @shelter.id)
@@ -63,4 +63,16 @@ RSpec.describe 'the pets index' do
     expect(page).to_not have_content(@pet_2.name)
     expect(page).to_not have_content(@pet_3.name)
   end
+
+  describe 'start an application link,' do
+    it 'displays a link to start an adoption application' do
+      expect(page).to have_link('Start an Application')
+    end
+
+    it 'redirects user to /applications/new' do
+      page.find('#start_application').click
+      current_path.should eq new_application_path
+    end
+  end
+
 end

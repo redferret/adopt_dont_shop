@@ -16,9 +16,9 @@
       <tr>
         <td><%= application.description %></td>
         <td><%= application.status %></td>
-        <td><%= link_to 'Show', application %></td>
-        <td><%= link_to 'Edit', edit_application_path(application) %></td>
-        <td><%= link_to 'Destroy', application, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', application, id: "show_#{application.id}" %></td>
+        <td><%= link_to 'Edit', edit_application_path(application), id: "edit_#{application.id}" %></td>
+        <td><%= link_to 'Destroy', application, method: :delete, data: { confirm: 'Are you sure?' }, id: "delete_#{application.id}" %></td>
       </tr>
     <% end %>
   </tbody>

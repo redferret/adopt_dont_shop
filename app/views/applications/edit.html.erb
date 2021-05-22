@@ -1,6 +1,6 @@
 <h1>Editing Application</h1>
 
-<%= render 'form', application: @application %>
+<%= render partial: 'applications/form', locals: {application: @application, applicant: @applicant} %>
 
 <%= link_to 'Show', @application %> |
 <%= link_to 'Back', applications_path %>

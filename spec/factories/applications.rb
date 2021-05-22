@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :application do
     description { Faker::Lorem.sentence }
-    status { ['In Progress', 'Pending', 'Accepted', 'Rejected'].sample }
+    status { 'In Progress' }
   end
 end
