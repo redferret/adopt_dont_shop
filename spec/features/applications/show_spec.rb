@@ -36,6 +36,7 @@ RSpec.describe 'The applications show page,' do
   end
 
   it 'shows a description'do
+    expect(page).to have_content('Why I would make a good home:')
     expect(page).to have_content(@application.description)
   end
 
