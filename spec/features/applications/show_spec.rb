@@ -114,6 +114,10 @@ RSpec.describe 'The applications show page,' do
         within '#pets_on_application' do
           expect(page).to have_link(@pet_1.name)
         end
+
+        within '#pets_found_by' do
+          expect(page).to_not have_content(@pet_1.name)
+        end
       end
     end
   end
