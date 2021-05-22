@@ -22,11 +22,15 @@ RSpec.describe 'The applications show page,' do
 
   describe 'content,' do
     before :all do
-      @application.pets << Pet.all
+      @application.pets << @pet_1 << @pet_2 << @pet_3
     end
 
     before :each do
       visit application_path(@application.id)
+    end
+
+    after :all do
+      @application.pets.clear
     end
 
     it 'shows applicants name' do
@@ -34,21 +38,27 @@ RSpec.describe 'The applications show page,' do
     end
 
     it 'shows the applicants address' do
-      expect(page).to have_content(@address.street)
-      expect(page).to have_content(@address.city)
-      expect(page).to have_content(@address.state)
-      expect(page).to have_content(@address.zipcode)
+      within '#address_section' do
+        expect(page).to have_field('address[street]', with: @address.street)
+        expect(page).to have_field('address[city]', with: @address.city)
+        expect(page).to have_field('address[state]', with: @address.state)
+        expect(page).to have_field('address[zipcode]', with: @address.zipcode)
+      end
     end
 
-    it 'shows a description'do
-      expect(page).to have_content('Why I would make a good home:')
-      expect(page).to have_content(@application.description)
+    it 'shows a description if application is in progress' do
+      within '#applications_form' do
+        expect(page).to have_content('Why I would make a good home:')
+        expect(page).to have_content(@application.description)
+      end
     end
 
-    it 'lists all pets on the application' do
-      expect(page).to have_link(@pet_1.name)
-      expect(page).to have_link(@pet_2.name)
-      expect(page).to have_link(@pet_3.name)
+    it 'lists all pets added to the application' do
+      within '#search_for_pet_section' do
+        expect(page).to have_link(@pet_1.name)
+        expect(page).to have_link(@pet_2.name)
+        expect(page).to have_link(@pet_3.name)
+      end
     end
 
     it 'shows the status of the application' do
@@ -63,13 +73,6 @@ RSpec.describe 'The applications show page,' do
         end
       end
 
-      describe 'Edit application' do
-        it 'navigates to the edit page for application' do
-          page.find('#edit_application').click
-          current_path.should eq edit_application_path(@application)
-        end
-      end
-
       describe 'Back' do
         it 'goes back to the application index' do
           page.find('#back_to_index').click
@@ -79,18 +82,35 @@ RSpec.describe 'The applications show page,' do
     end
   end
 
-  describe 'searching and adding pets,' do
-    before :all do
-    end
-
+  describe 'search and add pet,' do
     before :each do
       visit application_path(@application.id)
     end
 
-    it 'allows a user to search for pets if that app is in progress'
+    it 'has a form to search pets with text field and a submit button' do
+      within '#search_pet_form' do
+        expect(page).to have_field('application[search_pet_by]', with: '')
+      end
+    end
 
-    it 'user sees a list of pets after submitting a search by'
+    it 'allows a user to search for pets if the app is in progress' do
+      within '#search_for_pet_section' do
+        expect(page).to have_content('Add a Pet to this Application')
+      end
+    end
 
+    it 'lets the user see a list of pets after submitting a search by' do
+      within '#search_pet_form' do
+        fill_in 'application[search_pet_by]', with: 's'
+        click_button
+      end
+
+      current_path.should eq application_path(@application.id)
+
+      within '#pets_found_by' do
+        expect(page).to have_content('Spot')
+        expect(page).to have_content('Spinner')
+      end
+    end
   end
-
 end

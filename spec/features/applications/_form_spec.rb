@@ -20,14 +20,14 @@ RSpec.describe 'The partial form for applications,', type: :view do
     end
 
     it 'has an input for an applicants name' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content("Applicant's Name")
         expect(page).to have_field('applicant[name]')
       end
     end
 
     it 'has inputs for the applicants address' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content('Street:')
         expect(page).to have_field('address[street]')
 
@@ -43,14 +43,14 @@ RSpec.describe 'The partial form for applications,', type: :view do
     end
 
     it 'has a description box' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_content('Descriptive reason why to adopt:')
         expect(page).to have_field('application[description]')
       end
     end
 
     it 'has a submit button' do
-      within 'form' do
+      within '#applications_form' do
         expect(page).to have_selector("input", type: 'submit')
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe 'The partial form for applications,', type: :view do
     new_name = Fake::Name.name
     new_street_name = Faker::Address.street
 
-    within 'form' do
+    within '#applications_form' do
       fill_in 'applicant[name]', with: new_name
       fill_in 'address[street]', with: new_street_name
       fill_in 'address[state]', with: Fake::Addresss.state_abbr
