@@ -18,7 +18,7 @@
     <ul>
       <% @pets_found.each do |pet_found| %>
         <li>
-          <%= pet_found.name %>
+          <%= pet_found.name %><%= link_to 'Adopt this Pet', application_path(@application.id), data: {pet_to_adopt: {pet_id: pet_found.id}} %>
         </li>
       <% end %>
     </ul>
