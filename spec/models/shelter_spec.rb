@@ -30,6 +30,13 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '#reverse_alphabetical' do
+      it 'returns shelters in reverse alphabetical order by name' do
+        expected_order = [@shelter_2, @shelter_3, @shelter_1]
+        expect(Shelter.reverse_alphabetical).to eq expected_order
+      end
+    end
+
     describe '#order_by_recently_created' do
       it 'returns shelters with the most recently created first' do
         expect(Shelter.order_by_recently_created).to eq([@shelter_3, @shelter_2, @shelter_1])
