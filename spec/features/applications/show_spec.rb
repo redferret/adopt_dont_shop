@@ -94,29 +94,25 @@ RSpec.describe 'The applications show page,' do
       end
 
       within '#pets_found_by' do
-        expect(page).to have_link('Adopt this Pet')
+        expect(page).to have_content(@pet_1.name)
       end
     end
 
     describe 'adopt pet button,' do
       it 'adds the pet to the application' do
         within '#search_pet_form' do
-          fill_in 'application[search_pet_by]', with: 'Spot'
+          fill_in 'application[search_pet_by]', with: @pet_1.name
           click_button
         end
 
-        within '#pets_found_by' do
-          click_link
+        within "#pets_found_by" do
+          click_button
         end
 
         current_path.should eq application_path(@application.id)
 
         within '#pets_on_application' do
           expect(page).to have_link(@pet_1.name)
-        end
-
-        within '#pets_found_by' do
-          expect(page).to_not have_content(@pet_1.name)
         end
       end
     end
