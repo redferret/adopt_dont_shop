@@ -14,8 +14,21 @@ end
   end
 end
 
-20.times do
-  application = FactoryBot.create(:application)
+5.times do
+  application = FactoryBot.create(:application, status: 'In Progress', description: '')
+  applicant = FactoryBot.create(:applicant, application: application)
+  address = FactoryBot.create(:address, applicant: applicant)
+
+  rand(1..5).times do
+    random_shelter = Shelter.all.sample
+    random_pet = random_shelter.pets.sample
+    application.pets << random_pet
+  end
+end
+
+
+2.times do
+  application = FactoryBot.create(:application, status: 'Pending')
   applicant = FactoryBot.create(:applicant, application: application)
   address = FactoryBot.create(:address, applicant: applicant)
 
