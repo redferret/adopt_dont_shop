@@ -1,19 +1,44 @@
 <%= form_with(model: application, local: true, id: 'applications_form') do |form| %>
-  <div class='field'>
-    <%= label :applicant, :name, "Applicant's Name" %>
-    <%= text_field :applicant, :name, value: applicant.name %>
-  </div>
 
-  <%= render partial: 'applications/address', locals: { address: applicant.address } %>
+  <% if application.is_new? %>
+    <div class='field'>
+      <%= label :name, "Applicant's Name" %>
+      <%= form.text_field :name %>
+    </div>
+  <% else %>
+    <p>
+      <strong>Applicant's Name:</strong>
+      <%= @applicant.name %>
+    </p>
+  <% end %>
 
-  <% if application.not_new %>
+  <% if application.is_new? %>
+    <%= render partial: 'applications/address_form', locals: { address: applicant.address } %>
+  <% else %>
+    <%= render partial: 'applications/address', locals: { address: applicant.address } %>
+  <% end %>
+
+  <% if application.in_progress? %>
     <div class="field">
       <%= form.label :description, 'Why I would make a good home:' %>
       <%= form.text_area :description, disabled: application.can_not_edit_description %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <% if application.pending? %>
+    <div class="field">
+      <strong>Why I would make a good home:</strong>
+      <p><%= application.description%></p>
+    </div>
+  <% end %>
+
+  <% if application.is_new? %>
+    <div class="actions">
+      <%= form.submit 'Create Application'%>
+    </div>
+  <% elsif application.ready_to_submit? %>
+    <div class="actions">
+      <%= form.submit 'Submit'%>
+    </div>
+  <% end %>
 <% end %>
