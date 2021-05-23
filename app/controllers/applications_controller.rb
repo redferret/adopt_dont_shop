@@ -45,9 +45,15 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    if params[:application][:search_pet_by].present?
+    if params[:pet_to_adopt].present?
+      pet_id = params[:pet_to_adopt][:pet_id]
+      @application.pets << Pet.find(pet_id)
+      
+      render :show, status: :ok, location: @application
+    elsif params[:application][:search_pet_by].present?
       search_pet_by = params[:application][:search_pet_by]
       @pets_found = Pet.search(search_pet_by)
+
       render :show, status: :ok, location: @application
     else
       respond_to do |format|
