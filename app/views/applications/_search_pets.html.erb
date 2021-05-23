@@ -1,0 +1,23 @@
+<div id='search_for_pet_section'>
+  <strong>Add a Pet to this Application</strong>
+  <%= form_with(model: application, local: true, id: 'search_pet_form') do |form| %>
+    <%= form.label :search_pet_by, 'Search for a pet by:' %>
+    <%= form.text_field :search_pet_by, value: '' %>
+    <%= form.submit 'Search' %>
+  <% end %>
+
+  <div id='pets_found_by'>
+    <strong>Pets found with search:</strong>
+    <ul>
+      <% pets_found.each do |pet_found| %>
+        <li>
+          <%= pet_found.name %>
+          <%= form_with(model: application, local: true, id: "adopt_pet_#{pet_found.id}") do |form| %>
+            <%= hidden_field :pet_to_adopt, :pet_id, value: pet_found.id %>
+            <%= form.submit 'Adopt this Pet' %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

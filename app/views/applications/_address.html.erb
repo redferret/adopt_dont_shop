@@ -1,22 +1,10 @@
-<div id='address_section'>
-  <strong>Address:</strong>
-  <div class='field'>
-    <%= label :address, :street, 'Street:' %>
-    <%= text_field :address, :street, value: address&.street %>
-  </div>
-
-  <div class='field'>
-    <%= label :address, :city, 'City:' %>
-    <%= text_field :address, :city, value: address&.city %>
-  </div>
-
-  <div class='field'>
-    <%= label :address, :state, 'State:' %>
-    <%= text_field :address, :state, value: address&.state %>
-  </div>
-
-  <div class='field'>
-    <%= label :address, :zipcode, 'Zipcode:' %>
-    <%= text_field :address, :zipcode, value: address&.zipcode %>
-  </div>
+<div id='address_description'>
+  <strong>Street:</strong>
+  <p><%= address&.street %></p>
+  <strong>City:</strong>
+  <p><%= address&.city %></p>
+  <strong>State:</strong>
+  <p><%= address&.state %></p>
+  <strong>Zipcode:</strong>
+  <p><%= address&.zipcode %></p>
 </div>
