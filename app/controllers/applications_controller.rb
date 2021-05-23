@@ -37,9 +37,6 @@ class ApplicationsController < ApplicationController
         else
           format.html { redirect_to @application, notice: "Application was successfully created." }
         end
-      else
-        flash[:alert] = "Error: #{error_message(@application.errors)}"
-        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -63,15 +60,11 @@ class ApplicationsController < ApplicationController
     else
       respond_to do |format|
         if params[:application][:description].match(/^(\w+\s*\n*.*)+/)
-          if @application.update(application_params)
-            @application.status = 'Pending'
-            @application.save
+          @application.update(application_params)
+          @application.status = 'Pending'
+          @application.save
 
-            format.html { render :show, status: :ok, location: @application }
-          else
-            flash[:alert] = "Error: #{error_message(@application.errors)}"
-            format.html { render :show, status: :unprocessable_entity }
-          end
+          format.html { render :show, status: :ok, location: @application }
         else
           flash[:alert] = "Error: Description is needed to submit application"
           format.html { render :show, status: :unprocessable_entity }

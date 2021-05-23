@@ -114,6 +114,33 @@ RSpec.describe 'The applications show page,' do
     end
   end
 
+  describe 'submitting application,' do
+    before :each do
+      @application.pets << @pet_1 << @pet_2 << @pet_3
+      visit application_path(@application.id)
+    end
+
+    it 'submits application when there are pets and a description' do
+      within '#applications_form' do
+        fill_in 'application[description]', with: 'I would make a great home'
+        click_button
+      end
+
+      current_path.should eq application_path(@application.id)
+      expect(page).to have_content 'Pending'
+    end
+
+    it 'returns error if the description is not filled out' do
+      within '#applications_form' do
+        fill_in 'application[description]', with: ''
+        click_button
+      end
+
+      current_path.should eq application_path(@application.id)
+      expect(page).to have_content 'Description is needed to submit application'
+    end
+  end
+
   describe 'search pet,' do
     before :each do
       visit application_path(@application.id)
