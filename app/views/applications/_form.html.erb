@@ -2,8 +2,8 @@
 
   <% if application.is_new? %>
     <div class='field'>
-      <%= label :name, "Applicant's Name" %>
-      <%= form.text_field :name %>
+      <%= label :applicant, :name, "Applicant's Name" %>
+      <%= text_field :applicant, :name %>
     </div>
   <% else %>
     <p>

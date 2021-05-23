@@ -17,10 +17,15 @@ RSpec.describe 'The new application page,' do
     it 'navigates to the show page of the new application with valid input' do
       within '#applications_form' do
         fill_in 'applicant[name]', with: Faker::Name.name
+      end
+      within '#address_form' do
         fill_in 'address[street]', with: Faker::Address.street_name
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
+      end
+
+      within '#applications_form' do
         click_button
       end
 
@@ -32,19 +37,27 @@ RSpec.describe 'The new application page,' do
       new_address = new_applicant.address
 
       expect(page).to have_content(new_applicant.name)
-      expect(page).to have_field('address[street]', with: new_address.street)
-      expect(page).to have_field('address[state]', with: new_address.state)
-      expect(page).to have_field('address[city]', with: new_address.city)
-      expect(page).to have_field('address[zipcode]', with: new_address.zipcode)
+
+      within '#address_description' do
+        expect(page).to have_content(new_address.street)
+        expect(page).to have_content(new_address.state)
+        expect(page).to have_content(new_address.city)
+        expect(page).to have_content(new_address.zipcode)
+      end
     end
 
     it 'navigates back to the new page with errors on the address model' do
       within '#applications_form' do
         fill_in 'applicant[name]', with: Faker::Name.name
+      end
+      within '#address_form' do
         fill_in 'address[street]', with: ''
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
+      end
+
+      within '#applications_form' do
         click_button
       end
 
@@ -55,10 +68,15 @@ RSpec.describe 'The new application page,' do
     it 'navigates back to the new page with errors on the applicant model' do
       within '#applications_form' do
         fill_in 'applicant[name]', with: ''
+      end
+      within '#address_form' do
         fill_in 'address[street]', with: Faker::Address.street_name
         fill_in 'address[state]', with: Faker::Address.state_abbr
         fill_in 'address[city]', with: Faker::Address.city
         fill_in 'address[zipcode]', with: Faker::Address.zip
+      end
+
+      within '#applications_form' do
         click_button
       end
 

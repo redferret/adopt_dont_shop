@@ -6,6 +6,8 @@ RSpec.describe 'The applications show page,' do
     @application = FactoryBot.create(:application)
     @applicant = FactoryBot.create(:applicant, application: @application)
     @address = FactoryBot.create(:address, applicant: @applicant)
+    @application.status = 'In Progress'
+    @application.save
 
     shelter = FactoryBot.create(:shelter)
     @pet_1 = FactoryBot.create(:pet, shelter: shelter, name: 'Spot')
@@ -38,23 +40,17 @@ RSpec.describe 'The applications show page,' do
     end
 
     it 'shows the applicants address' do
-      within '#address_section' do
-        expect(page).to have_field('address[street]', with: @address.street)
-        expect(page).to have_field('address[city]', with: @address.city)
-        expect(page).to have_field('address[state]', with: @address.state)
-        expect(page).to have_field('address[zipcode]', with: @address.zipcode)
-      end
+      expect(page).to have_selector('#address_description')
     end
 
     it 'shows a description if application is in progress' do
       within '#applications_form' do
         expect(page).to have_content('Why I would make a good home:')
-        expect(page).to have_content(@application.description)
       end
     end
 
     it 'lists all pets added to the application' do
-      within '#search_for_pet_section' do
+      within '#pets_on_application' do
         expect(page).to have_link(@pet_1.name)
         expect(page).to have_link(@pet_2.name)
         expect(page).to have_link(@pet_3.name)
