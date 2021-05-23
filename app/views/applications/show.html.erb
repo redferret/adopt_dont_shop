@@ -18,7 +18,11 @@
     <ul>
       <% @pets_found.each do |pet_found| %>
         <li>
-          <%= pet_found.name %><%= link_to 'Adopt this Pet', application_path(@application.id), data: {pet_to_adopt: {pet_id: pet_found.id}} %>
+          <%= pet_found.name %>
+          <%= form_with(model: @application, local: true, id: "adopt_pet_#{pet_found.id}") do |form| %>
+            <%= hidden_field :pet_to_adopt, :pet_id, value: pet_found.id %>
+            <%= form.submit 'Adopt this Pet' %>
+          <% end %>
         </li>
       <% end %>
     </ul>
