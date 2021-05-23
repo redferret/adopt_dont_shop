@@ -1,43 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Applicant's Name:</strong>
-  <%= @applicant.name %>
-</p>
 
-<div id='search_for_pet_section'>
-  <strong>Add a Pet to this Application</strong>
-  <%= form_with(model: @application, local: true, id: 'search_pet_form') do |form| %>
-    <%= form.label :search_pet_by, 'Search for a pet by:' %>
-    <%= form.text_field :search_pet_by, value: '' %>
-    <%= form.submit 'Search' %>
-  <% end %>
+<% if @application.in_progress? %>
+  <%= render partial: 'applications/search_pets', locals: {application: @application, pets_found: @pets_found} %>
+<% end %>
 
-  <div id='pets_found_by'>
-    <strong>Pets found with search:</strong>
-    <ul>
-      <% @pets_found.each do |pet_found| %>
-        <li>
-          <%= pet_found.name %>
-          <%= form_with(model: @application, local: true, id: "adopt_pet_#{pet_found.id}") do |form| %>
-            <%= hidden_field :pet_to_adopt, :pet_id, value: pet_found.id %>
-            <%= form.submit 'Adopt this Pet' %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-
-  <div id='pets_on_application'>
-    <strong>Pets requested for adoption:</strong>
-    <ul>
-      <% @pets.each do |pet| %>
-        <li>
-          <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+<div id='pets_on_application'>
+  <strong>Pets requested for adoption:</strong>
+  <ul>
+    <% @pets.each do |pet| %>
+    <li>
+      <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
+    </li>
+    <% end %>
+  </ul>
 </div>
 
 <%= render partial: 'applications/form', locals: {application: @application, applicant: @applicant} %>

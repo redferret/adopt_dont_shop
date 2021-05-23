@@ -17,7 +17,7 @@ class ApplicationsController < ApplicationController
 
   def create
     respond_to do |format|
-      @application = Application.new(description:'', status: 'In Progress')
+      @application = Application.new(description: '', status: 'In Progress')
       if @application.save
         @applicant = Applicant.new(applicant_params)
 
@@ -47,8 +47,12 @@ class ApplicationsController < ApplicationController
   def update
     if params[:pet_to_adopt].present?
       pet_id = params[:pet_to_adopt][:pet_id]
-      @application.pets << Pet.find(pet_id)
-      
+      pet = Pet.find(pet_id)
+
+      if (!@application.pets.include?(pet))
+        @application.pets << pet
+      end
+
       render :show, status: :ok, location: @application
     elsif params[:application][:search_pet_by].present?
       search_pet_by = params[:application][:search_pet_by]
@@ -57,21 +61,19 @@ class ApplicationsController < ApplicationController
       render :show, status: :ok, location: @application
     else
       respond_to do |format|
-        if @application.update(application_params)
-          if !@applicant.update(applicant_params)
-            flash[:alert] = "Error: #{error_message(@applicant.errors)}"
-            format.html { render :edit, status: :unprocessable_entity }
-          end
+        if params[:application][:description].match(/^(\w+\s*\n*.*)+/)
+          if @application.update(application_params)
+            @application.status = 'Pending'
+            @application.save
 
-          if !@address.update(address_params)
-            flash[:alert] = "Error: #{error_message(@address.errors)}"
-            format.html { render :edit, status: :unprocessable_entity }
-          else
             format.html { render :show, status: :ok, location: @application }
+          else
+            flash[:alert] = "Error: #{error_message(@application.errors)}"
+            format.html { render :show, status: :unprocessable_entity }
           end
         else
-          flash[:alert] = "Error: #{error_message(@application.errors)}"
-          format.html { render :new, status: :unprocessable_entity }
+          flash[:alert] = "Error: Description is needed to submit application"
+          format.html { render :show, status: :unprocessable_entity }
         end
       end
     end
