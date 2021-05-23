@@ -54,10 +54,11 @@ class ApplicationsController < ApplicationController
       end
 
       render :show, status: :ok, location: @application
-    elsif params[:application][:search_pet_by].present?
-      search_pet_by = params[:application][:search_pet_by]
-      @pets_found = Pet.search(search_pet_by)
-
+    elsif params[:application][:search_pet_by]
+      if params[:application][:search_pet_by].present?
+        search_pet_by = params[:application][:search_pet_by]
+        @pets_found = Pet.search(search_pet_by)
+      end
       render :show, status: :ok, location: @application
     else
       respond_to do |format|
