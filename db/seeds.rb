@@ -32,7 +32,7 @@ end
   applicant = FactoryBot.create(:applicant, application: application)
   address = FactoryBot.create(:address, applicant: applicant)
 
-  rand(1..5).times do
+  3.times do
     random_shelter = Shelter.all.sample
     random_pet = random_shelter.pets.sample
     application.pets << random_pet
