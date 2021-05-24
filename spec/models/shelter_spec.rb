@@ -30,6 +30,17 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '#get_shelters_with_pending_applications' do
+      it 'returns shelters with pets on applications that are pending' do
+        app = FactoryBot.create(:application)
+        FactoryBot.create(:applicant, application: app)
+        app.pets << @pet_1
+        app.status = 'Pending'
+        app.save
+        expect(Shelter.get_shelters_with_pending_applications).to eq [@shelter_1]
+      end
+    end
+
     describe '#reverse_alphabetical' do
       it 'returns shelters in reverse alphabetical order by name' do
         expected_order = [@shelter_2, @shelter_3, @shelter_1]
