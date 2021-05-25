@@ -1,10 +1,24 @@
 <div id='address_description'>
-  <strong>Street:</strong>
-  <p><%= address&.street %></p>
-  <strong>City:</strong>
-  <p><%= address&.city %></p>
-  <strong>State:</strong>
-  <p><%= address&.state %></p>
-  <strong>Zipcode:</strong>
-  <p><%= address&.zipcode %></p>
+  <table>
+    <tr>
+      <th>
+        Street
+      </th>
+      <th>
+        City
+      </th>
+      <th>
+        State
+      </th>
+      <th>
+        Zipcode
+      </th>
+    </tr>
+    <tr>
+      <td><%= address&.street %></td>
+      <td><%= address&.city %></td>
+      <td><%= address&.state %></td>
+      <td><%= address&.zipcode %></td>
+    </tr>
+  </table>
 </div>
