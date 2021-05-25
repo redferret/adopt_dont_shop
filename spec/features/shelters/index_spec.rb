@@ -33,15 +33,15 @@ RSpec.describe 'the shelters index' do
     expect(mid).to appear_before(oldest)
 
     within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_content("Created at: #{@shelter_1.created_at}")
+      expect(page).to have_content("#{@shelter_1.created_at}")
     end
 
     within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_content("Created at: #{@shelter_2.created_at}")
+      expect(page).to have_content("#{@shelter_2.created_at}")
     end
 
     within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_content("Created at: #{@shelter_3.created_at}")
+      expect(page).to have_content("#{@shelter_3.created_at}")
     end
   end
 
@@ -55,36 +55,42 @@ RSpec.describe 'the shelters index' do
   end
 
   it 'has a link to update each shelter' do
-    within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_link("Update #{@shelter_1.name}")
+    within "#shelter-btns-#{@shelter_1.id}" do
+      expect(page).to have_link("Update")
     end
 
-    within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_link("Update #{@shelter_2.name}")
+    within "#shelter-btns-#{@shelter_2.id}" do
+      expect(page).to have_link("Update")
     end
 
-    within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_link("Update #{@shelter_3.name}")
+    within "#shelter-btns-#{@shelter_3.id}" do
+      expect(page).to have_link("Update")
     end
 
-    click_on("Update #{@shelter_1.name}")
+    within "#shelter-btns-#{@shelter_1.id}" do
+      click_on("Update")
+    end
+
     expect(page).to have_current_path("/shelters/#{@shelter_1.id}/edit")
   end
 
   it 'has a link to delete each shelter' do
-    within "#shelter-#{@shelter_1.id}" do
-      expect(page).to have_link("Delete #{@shelter_1.name}")
+    within "#shelter-btns-#{@shelter_1.id}" do
+      expect(page).to have_link("Delete")
     end
 
-    within "#shelter-#{@shelter_2.id}" do
-      expect(page).to have_link("Delete #{@shelter_2.name}")
+    within "#shelter-btns-#{@shelter_2.id}" do
+      expect(page).to have_link("Delete")
     end
 
-    within "#shelter-#{@shelter_3.id}" do
-      expect(page).to have_link("Delete #{@shelter_3.name}")
+    within "#shelter-btns-#{@shelter_3.id}" do
+      expect(page).to have_link("Delete")
     end
 
-    click_on("Delete #{@shelter_1.name}")
+    within "#shelter-btns-#{@shelter_1.id}" do
+      click_on("Delete")
+    end
+
     expect(page).to have_current_path("/shelters")
     expect(page).to_not have_content(@shelter_1.name)
   end

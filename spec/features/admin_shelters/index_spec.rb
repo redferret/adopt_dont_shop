@@ -22,14 +22,40 @@ RSpec.describe 'The admin shelters index page,' do
   end
 
   it 'shows all shelters name in reverse alphabetical order' do
-    shelter_2 = page.find("#shelter_#{@shelter_2.id}")
-    shelter_1 = page.find("#shelter_#{@shelter_1.id}")
-    expect(shelter_2).to appear_before(shelter_1)
+    within '#all_shelters' do
+      shelter_2 = page.find("#shelter_#{@shelter_2.id}")
+      shelter_1 = page.find("#shelter_#{@shelter_1.id}")
+      expect(shelter_2).to appear_before(shelter_1)
+    end
   end
 
   it 'shows all shelters with pending applications' do
     within '#shelters_with_pending_apps' do
       expect(page).to have_content(@shelter_1.name)
+    end
+  end
+
+  describe 'button,' do
+    describe 'update,' do
+      it 'navigates to the edit page' do
+        within '#all_shelters' do
+          within "#shelter_btns_#{@shelter_1.id}" do
+            click_link 'Update'
+            current_path.should eq "/shelters/#{@shelter_1.id}/edit"
+          end
+        end
+      end
+    end
+
+    describe 'delete,' do
+      it 'navigates to the index page' do
+        within '#all_shelters' do
+          within "#shelter_btns_#{@shelter_1.id}" do
+            click_link 'Delete'
+            current_path.should eq '/shelters'
+          end
+        end
+      end
     end
   end
 end

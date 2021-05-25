@@ -21,7 +21,7 @@ RSpec.describe 'the shelter show' do
   end
 
   it "shows the number of pets associated with the shelter" do
-    within ".pet-count" do
+    within "#pet-count" do
       expect(page).to have_content(@shelter.pets.count)
     end
   end
