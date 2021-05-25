@@ -55,7 +55,7 @@ class ApplicationsController < ApplicationController
     elsif params[:application][:search_pet_by]
       if params[:application][:search_pet_by].present?
         search_pet_by = params[:application][:search_pet_by]
-        @pets_found = Pet.search(search_pet_by)
+        @pets_found = Pet.search(search_pet_by).where(adoptable: true)
       end
       render :show, location: @application
     else
