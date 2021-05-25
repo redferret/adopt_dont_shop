@@ -45,9 +45,15 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
+    autoprefixer-rails (10.2.5.1)
+      execjs (> 0)
     bindex (0.8.1)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
+    bootstrap (4.0.0)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.4)
     capybara (3.35.3)
       addressable
@@ -116,6 +122,7 @@ GEM
       capybara (>= 1.1)
       rspec (>= 2.14)
     pg (1.2.3)
+    popper_js (1.16.0)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -233,6 +240,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bootstrap (~> 4.0.0)
   capybara
   coffee-rails (~> 4.2)
   factory_bot_rails
