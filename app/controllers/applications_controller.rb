@@ -24,7 +24,7 @@ class ApplicationsController < ApplicationController
         if !@applicant.save
           @application.delete
           flash[:alert] = "Error: #{error_message(@applicant.errors)}"
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new }
         end
 
         @address = Address.new(address_params)
@@ -33,9 +33,10 @@ class ApplicationsController < ApplicationController
           @application.delete
           @applicant.delete
           flash[:alert] = "Error: #{error_message(@address.errors)}"
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new }
         else
-          format.html { redirect_to @application, notice: "Application was successfully created." }
+          flash[:success] = 'Application was successfully created.'
+          format.html { redirect_to @application}
         end
       end
     end
@@ -56,18 +57,18 @@ class ApplicationsController < ApplicationController
         search_pet_by = params[:application][:search_pet_by]
         @pets_found = Pet.search(search_pet_by)
       end
-      render :show, status: :ok, location: @application
+      render :show, location: @application
     else
       respond_to do |format|
         if params[:application][:description].match(/^(\w+\s*\n*.*)+/)
           @application.update(application_params)
           @application.status = 'Pending'
           @application.save
-
-          format.html { render :show, status: :ok, location: @application }
+          flash[:success] = 'Application submitted for review'
+          format.html { render :show, location: @application }
         else
           flash[:alert] = "Error: Description is needed to submit application"
-          format.html { render :show, status: :unprocessable_entity }
+          format.html { render :show }
         end
       end
     end

@@ -1,9 +1,9 @@
 <%= form_with(model: application, local: true, id: 'applications_form') do |form| %>
 
   <% if application.is_new? %>
-    <div class='field'>
+    <div class='form-group'>
       <%= label :applicant, :name, "Applicant's Name" %>
-      <%= text_field :applicant, :name %>
+      <%= text_field :applicant, :name, class:'form-control' %>
     </div>
   <% else %>
     <p>
@@ -19,26 +19,24 @@
   <% end %>
 
   <% if application.in_progress? %>
-    <div class="field">
+    <div class="form-group">
       <%= form.label :description, 'Why I would make a good home:' %>
-      <%= form.text_area :description, disabled: application.can_not_edit_description %>
+      <%= form.text_area :description, disabled: application.can_not_edit_description, class:'form-control' %>
     </div>
   <% end %>
 
   <% if application.pending? %>
-    <div class="field">
-      <strong>Why I would make a good home:</strong>
-      <p><%= application.description%></p>
-    </div>
+    <strong>Why I would make a good home:</strong>
+    <p><%= application.description%></p>
   <% end %>
 
   <% if application.is_new? %>
-    <div class="actions">
-      <%= form.submit 'Create Application'%>
+    <div class="form-group">
+      <%= form.submit 'Create Application', class:'btn btn-success btn-lg'%>
     </div>
   <% elsif application.ready_to_submit? %>
-    <div class="actions">
-      <%= form.submit 'Submit'%>
+    <div class="form-group">
+      <%= form.submit 'Submit', class:'btn btn-success btn-lg'%>
     </div>
   <% end %>
 <% end %>

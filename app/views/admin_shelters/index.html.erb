@@ -1,24 +1,10 @@
 <h1>Admin view for Shelters</h1>
 <h2>Shelters with Pending Applications</h2>
 <div id='shelters_with_pending_apps'>
-  <% @shelters_with_pending_apps.each do |shelter| %>
-    <div id="shelters_with_pending_apps_<%= shelter.id %>">
-      <h3><%= shelter.name %></h3>
-      <p>Created at: <%= shelter.created_at %></p>
-      <%= link_to "Update #{shelter.name}", "/shelters/#{shelter.id}/edit" %>
-      <%= link_to "Delete #{shelter.name}", "/shelters/#{shelter.id}", method: :delete %>
-    </div>
-  <% end %>
+  <%= render partial: 'admin_shelters/shelter_list', locals: { shelters: @shelters_with_pending_apps }%>
 </div>
 <br />
 <h2>Shelters</h2>
 <div id='all_shelters'>
-  <% @shelters.each do |shelter| %>
-    <div id="shelter_<%= shelter.id %>">
-      <h3><%= shelter.name %></h3>
-      <p>Created at: <%= shelter.created_at %></p>
-      <%= link_to "Update #{shelter.name}", "/shelters/#{shelter.id}/edit" %>
-      <%= link_to "Delete #{shelter.name}", "/shelters/#{shelter.id}", method: :delete %>
-    </div>
-  <% end %>
+  <%= render partial: 'admin_shelters/shelter_list', locals: {shelters: @shelters} %>
 </div>

@@ -1,8 +1,25 @@
-<h1><%= @shelter.name %></h1>
-<p>Rank: <%= @shelter.rank %></p>
-<p>City: <%= @shelter.city %></p>
-
-<p class="pet-count">Pets at <%= @shelter.name %>: <%= @shelter.pet_count %></p>
-<p><%= link_to "All pets at #{@shelter.name}", "/shelters/#{@shelter.id}/pets" %></p>
-
-<p><%= link_to "Delete #{@shelter.name}", "/shelters/#{@shelter.id}", method: :delete %></p>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rank</th>
+      <th>City</th>
+      <th>Number of Pets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%=@shelter.name%></td>
+      <td><%=@shelter.rank%></td>
+      <td><%=@shelter.city%></td>
+      <td id='pet-count'><%=@shelter.pet_count%></td>
+    </tr>
+    <tr>
+      <td colspan='4'>
+        <%= link_to "All pets at #{@shelter.name}", "/shelters/#{@shelter.id}/pets", class:'btn btn-primary btn-sm' %>
+        <%= link_to "Delete #{@shelter.name}", "/shelters/#{@shelter.id}", method: :delete,
+            data: {confirm: 'Are you sure?'},  class:'btn btn-danger btn-sm'%>
+      </td>
+    </tr>
+  </tbody>
+</table>

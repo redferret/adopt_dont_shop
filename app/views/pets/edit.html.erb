@@ -1,16 +1,26 @@
 <h1>Edit Pet</h1>
 <%= form_with model: @pet, url: "/pets/#{@pet.id}", method: :patch, local: true do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+  <div class='form-group'>
+    <%= f.label :name %>
+    <%= f.text_field :name, class:'form-control' %>
+  </div>
 
-  <%= f.label :breed %>
-  <%= f.text_field :breed %>
+  <div class='form-group'>
+    <%= f.label :breed %>
+    <%= f.text_field :breed, class:'form-control' %>
+  </div>
 
-  <%= f.label :adoptable %>
-  <%= f.check_box :adoptable %>
+  <div class='form-group'>
+    <%= f.label :age %>
+    <%= f.number_field :age, class:'form-control' %>
+  </div>
+  
+  <div class='form-group'>
+    <%= f.label :adoptable %>
+    <%= f.check_box :adoptable %>
+  </div>
 
-  <%= f.label :age %>
-  <%= f.number_field :age %>
-
-  <%= f.submit %>
+  <div class='form-group'>
+    <%= f.submit class:'btn btn-primary'%>
+  </div>
 <% end %>

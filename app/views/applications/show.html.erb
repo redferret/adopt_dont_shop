@@ -1,20 +1,8 @@
-<p id="notice"><%= notice %></p>
-
-
 <% if @application.in_progress? %>
   <%= render partial: 'applications/search_pets', locals: {application: @application, pets_found: @pets_found} %>
 <% end %>
 
-<div id='pets_on_application'>
-  <strong>Pets requested for adoption:</strong>
-  <ul>
-    <% @pets.each do |pet| %>
-    <li>
-      <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}" %>
-    </li>
-    <% end %>
-  </ul>
-</div>
+<%= render partial: 'applications/pets_wanted', locals: {pets: @pets} %>
 
 <%= render partial: 'applications/form', locals: {application: @application, applicant: @applicant} %>
 
@@ -23,4 +11,4 @@
   <%= @application.status %>
 </p>
 
-<%= link_to 'Back', applications_path, id: 'back_to_index' %>
+<%= link_to 'Back', applications_path, id: 'back_to_index', class:'btn btn-secondary' %>

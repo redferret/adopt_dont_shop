@@ -1,16 +1,24 @@
 <h1>New Shelter</h1>
 <%= form_with model: @shelter, url: '/shelters', local: true do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+  <div class='form-group'>
+    <%= f.label :name %>
+    <%= f.text_field :name, class:'form-control' %>
+  </div>
 
-  <%= f.label :city %>
-  <%= f.text_field :city %>
+  <div class='form-group'>
+    <%= f.label :city %>
+    <%= f.text_field :city, class:'form-control' %>
+  </div>
 
-  <%= f.label :foster_program %>
-  <%= f.check_box :foster_program %>
+  <div class='form-group'>
+    <%= f.label :rank %>
+    <%= f.number_field :rank, class:'form-control' %>
+  </div>
 
-  <%= f.label :rank %>
-  <%= f.number_field :rank %>
+  <div class='form-group'>
+    <%= f.label :foster_program %>
+    <%= f.check_box :foster_program %>
+  </div>
 
-  <%= f.submit %>
+  <%= f.submit class:'btn btn-primary'%>
 <% end %>

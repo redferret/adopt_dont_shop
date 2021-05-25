@@ -1,22 +1,22 @@
 <div id='address_form'>
   <strong>Address:</strong>
-  <div class='field'>
+  <div class='form-group'>
     <%= label :address, :street, 'Street:' %>
-    <%= text_field :address, :street, value: address&.street %>
+    <%= text_field :address, :street, value: address&.street, class:'form-control' %>
   </div>
 
-  <div class='field'>
+  <div class='form-group'>
     <%= label :address, :city, 'City:' %>
-    <%= text_field :address, :city, value: address&.city %>
+    <%= text_field :address, :city, value: address&.city, class:'form-control' %>
   </div>
 
-  <div class='field'>
+  <div class='form-group'>
     <%= label :address, :state, 'State:' %>
-    <%= text_field :address, :state, value: address&.state %>
+    <%= text_field :address, :state, value: address&.state, class:'form-control' %>
   </div>
 
-  <div class='field'>
+  <div class='form-group'>
     <%= label :address, :zipcode, 'Zipcode:' %>
-    <%= text_field :address, :zipcode, value: address&.zipcode %>
+    <%= text_field :address, :zipcode, value: address&.zipcode, class:'form-control' %>
   </div>
 </div>

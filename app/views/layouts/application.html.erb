@@ -11,17 +11,31 @@
   </head>
 
   <body>
-    <% flash.each do |type, msg| %>
-      <div>
-        <%= msg %>
-      </div>
-    <% end %>
-    <section>
-      <p><%= link_to "Pets", "/pets" %></p>
-      <p><%= link_to "Shelters", "/shelters" %></p>
-      <p><%= link_to "Veterinarians", "/veterinarians" %></p>
-      <p><%= link_to "Veterinary Offices", "/veterinary_offices" %></p>
-    </section>
-    <%= yield %>
+    <div class='container'>
+      <nav class='navbar navbar-expand-sm bg-light'
+        <ul class='navbar-nav'>
+          <li class='nav-item'>
+            <%= link_to "Pets", "/pets", class:'nav-link' %>
+          </li>
+          <li class='nav-item'>
+            <%= link_to "Shelters", "/shelters", class:'nav-link' %>
+          </li>
+          <li class='nav-item'>
+            <%= link_to "Veterinarians", "/veterinarians", class:'nav-link' %>
+          </li>
+          <li class='nav-item'>
+            <%= link_to "Veterinary Offices", "/veterinary_offices", class:'nav-link' %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class='container'>
+      <% flash.each do |type, msg| %>
+        <div <%= flash_class(type) %> role='alert'>
+          <%= msg %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>

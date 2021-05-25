@@ -1,0 +1,16 @@
+<div id='pets_on_application'>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Pets requested for adoption:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% pets.each do |pet| %>
+        <tr>
+          <td><%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}", class:'btn btn-link' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
