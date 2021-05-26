@@ -1,14 +1,11 @@
-<% if @application.in_progress? %>
-  <%= render partial: 'applications/search_pets', locals: {application: @application, pets_found: @pets_found} %>
+<% if application.in_progress? &&  !(defined?(admin_view) && admin_view) %>
+  <%= render partial: 'applications/search_pets', locals: {application: application, pets_found: pets_found} %>
 <% end %>
 
-<%= render partial: 'applications/pets_wanted', locals: {pets: @pets} %>
+<%= render partial: 'applications/pets_wanted', locals: {application: application, admin_view: defined?(admin_view) && admin_view} %>
 
-<%= render partial: 'applications/form', locals: {application: @application, applicant: @applicant} %>
+<%= render partial: 'applications/form', locals: {application: application, applicant: application.applicant} %>
 
-<p>
-  <strong>Status:</strong>
-  <%= @application.status %>
-</p>
+<h4>Status: <%= application.status_badge %></h4>
 
-<%= link_to 'Back', applications_path, id: 'back_to_index', class:'btn btn-secondary' %>
+<%= link_to 'Back', back_path, id: 'back_to_index', class:'btn btn-secondary' %>
