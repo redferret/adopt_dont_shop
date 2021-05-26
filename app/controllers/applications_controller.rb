@@ -81,19 +81,6 @@ class ApplicationsController < ApplicationController
     end
   end
 
-  def destroy
-    @application.destroy
-    respond_to do |format|
-      format.html {
-        flash[:notice] = "Application was successfully destroyed."
-        redirect_to applications_url, locals: {
-          applications: @applications,
-          normal_view: true
-        }
-      }
-    end
-  end
-
   private
 
     def render_show
