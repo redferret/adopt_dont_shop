@@ -20,7 +20,7 @@ RSpec.describe Application, type: :model do
   end
 
   describe 'class method,' do
-    describe '#all_for_shelter' do
+    describe '::all_for_shelter' do
       before :all do
         @shelter = FactoryBot.create(:shelter)
         pet1 = FactoryBot.create(:pet, shelter: @shelter)
