@@ -23,9 +23,10 @@ shelter_id = Shelter.first.id
 
   random_shelter = Shelter.find(shelter_id)
   shelter_id += 1
-  1.times do
+  2.times do
     random_pet = random_shelter.pets.sample
-    application.pets << random_pet
+    application.pets << random_pet if !application.pets.include?(random_pet)
+    ApplicationsPets.where({pet_id: random_pet.id, application_id: application.id}).update_all(status: 'pending')
   end
 end if Application.count == 0
 
@@ -37,8 +38,9 @@ end if Application.count == 0
 
   random_shelter = Shelter.find(shelter_id)
   shelter_id += 1
-  1.times do
+  2.times do
     random_pet = random_shelter.pets.sample
-    application.pets << random_pet
+    application.pets << random_pet if !application.pets.include?(random_pet)
+    ApplicationsPets.where({pet_id: random_pet.id, application_id: application.id}).update_all(status: 'pending')
   end
 end if Application.count == 3
