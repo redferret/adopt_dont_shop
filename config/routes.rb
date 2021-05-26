@@ -32,7 +32,15 @@ Rails.application.routes.draw do
   patch '/veterinarians/:id', to: 'veterinarians#update'
   delete '/veterinarians/:id', to: 'veterinarians#destroy'
 
-  get '/admin/shelters', to: 'admin_shelters#index'
+  get '/admin/applications', to: 'admin#show_pending_applications'
+  get '/admin/applications/:id', to: 'admin#show_application'
+  get '/admin/shelters', to: 'admin#index'
+  get '/admin/shelters/:shelter_id/applications/:application_id', to: 'admin#show_application_for_shelter'
+  get '/admin/shelters/:shelter_id/applications/', to: 'admin#show_shelter_applications'
+
+  patch '/admin/applications/:application_id/pets/:id/approve', to: 'admin#approve_pet'
+  patch '/admin/applications/:application_id/pets/:id/reject', to: 'admin#reject_pet'
+  delete '/admin/applications/:id', to: 'admin#destroy'
 
   get '/shelters/:id/pets/new', to: 'pets#new'
   get '/shelters/:id/pets', to: 'shelters#pets'

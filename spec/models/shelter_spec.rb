@@ -37,7 +37,7 @@ RSpec.describe Shelter, type: :model do
         app.pets << @pet_1
         app.status = 'Pending'
         app.save
-        expect(Shelter.get_shelters_with_pending_applications).to eq [@shelter_1]
+        expect(Shelter.shelters_with_pending_applications).to eq [@shelter_1]
       end
     end
 

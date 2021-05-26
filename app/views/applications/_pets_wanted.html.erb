@@ -6,9 +6,23 @@
       </tr>
     </thead>
     <tbody>
-      <% pets.each do |pet| %>
+      <% application.pets.each do |pet| %>
         <tr>
-          <td><%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}", class:'btn btn-link' %></td>
+          <td>
+            <%= link_to pet.name, "/pets/#{pet.id}", id: "view_pet_#{pet.id}", class:'btn' %>
+            <% if admin_view && pet.ready_for_review_on(application) %>
+              <%= link_to 'Approve', "/admin/applications/#{application.id}/pets/#{pet.id}/approve", id: "approve_pet_#{pet.id}", method: :patch,
+                  class:'badge badge-success' %>
+              <%= link_to 'Reject', "/admin/applications/#{application.id}/pets/#{pet.id}/reject", id: "reject_pet_#{pet.id}", method: :patch,
+                  class:'badge badge-danger' %>
+            <% elsif admin_view %>
+              <%= render partial: 'applications/pet_status', locals: { application: application, pet: pet} %>
+              <% if pet.reviewed_on_another(application) %>
+                <%= link_to 'Reject', "/admin/applications/#{application.id}/pets/#{pet.id}/reject", id: "reject_pet_#{pet.id}", method: :patch,
+                    class:'badge badge-danger' %>
+              <% end %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

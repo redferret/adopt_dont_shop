@@ -3,6 +3,6 @@ FactoryBot.define do
     name { Faker::Creature::Dog.name }
     age { rand(0..15) }
     breed { Faker::Creature::Dog.breed }
-    adoptable { Faker::Boolean.boolean }
+    adoptable { true }
   end
 end

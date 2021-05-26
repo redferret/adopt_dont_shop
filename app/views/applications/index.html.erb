@@ -4,28 +4,33 @@
   <thead>
     <tr>
       <th>Description</th>
+      <th></th>
       <th>Status</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @applications.each do |application| %>
+    <% applications.each do |application| %>
       <tr id='app_id_<%= application.id%>'>
         <td><%= application.description %></td>
-        <td><%= application.status %></td>
-      </tr>
-      <tr id='app_btns_id_<%= application.id%>'>
-        <td colspan='2'>
-          <%= link_to 'Show', application, id: "show_#{application.id}", class:'btn btn-primary btn-sm' %>
-          <%= link_to 'Edit', edit_application_path(application), id: "edit_#{application.id}", class:'btn btn-info btn-sm' %>
-          <%= link_to 'Destroy', application, method: :delete, id: "delete_#{application.id}",
-              data: {confirm: 'Are you sure?'}, class:'btn btn-danger btn-sm'%>
-        </td>
+        <td>
+          <% if defined?(normal_view) %>
+            <%= link_to 'Show', application, id: "show_#{application.id}", class:'btn btn-primary btn-sm' %>
+          <% else %>
+            <%= link_to 'Show', "/admin/applications/#{application.id}", id: "show_#{application.id}", class:'btn btn-primary btn-sm' %>
+          <% end %>
+
+          <% if !defined?(normal_view) %>
+            <%= link_to 'Destroy', "/admin/applications/#{application.id}", method: :delete, id: "delete_#{application.id}",
+                data: {confirm: 'Are you sure?'}, class:'btn btn-danger btn-sm'%>
+          <% end %></td>
+        <td><%= application.status_badge %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Application', new_application_path, class:'btn btn-success btn-lg' %>
+<% if defined?(normal_view) %>
+  <%= link_to 'New Application', new_application_path, class:'btn btn-success btn-lg' %>
+<% end %>

@@ -16,8 +16,9 @@
     </tr>
     <tr>
       <td colspan='4'>
-        <%= link_to "All pets at #{@shelter.name}", "/shelters/#{@shelter.id}/pets", class:'btn btn-primary btn-sm' %>
-        <%= link_to "Delete #{@shelter.name}", "/shelters/#{@shelter.id}", method: :delete,
+        <%= link_to "Pending Applications", "/admin/shelters/#{@shelter.id}/applications", class:'btn btn-primary btn-sm' %>
+        <%= link_to "Show Pets", "/shelters/#{@shelter.id}/pets", class:'btn btn-primary btn-sm' %>
+        <%= link_to "Delete", "/shelters/#{@shelter.id}", method: :delete,
             data: {confirm: 'Are you sure?'},  class:'btn btn-danger btn-sm'%>
       </td>
     </tr>

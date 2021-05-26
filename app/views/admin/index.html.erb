@@ -1,0 +1,10 @@
+<h1>Admin view for Shelters</h1>
+<h2>Shelters with Pending Applications</h2>
+<div id='shelters_with_pending_apps'>
+  <%= render partial: 'admin/shelter_list', locals: { shelters: @shelters_with_pending_apps }%>
+</div>
+<br />
+<h2>Shelters</h2>
+<div id='all_shelters'>
+  <%= render partial: 'admin/shelter_list', locals: {shelters: @shelters} %>
+</div>

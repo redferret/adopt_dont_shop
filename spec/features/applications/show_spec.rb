@@ -98,11 +98,11 @@ RSpec.describe 'The applications show page,' do
       it 'adds the pet to the application' do
         within '#search_pet_form' do
           fill_in 'application[search_pet_by]', with: @pet_1.name
-          click_button
+          click_button 'Search'
         end
 
         within "#pets_found_by" do
-          click_button
+          click_link 'Adopt this Pet'
         end
 
         current_path.should eq application_path(@application.id)

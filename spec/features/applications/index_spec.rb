@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'The applications index page,' do
   before :all do
     5.times do
-      app = FactoryBot.create(:application)
+      app = FactoryBot.create(:application, status: 'Pending')
       applicant = FactoryBot.create(:applicant, application: app)
       FactoryBot.create(:address, applicant: applicant)
     end
@@ -26,12 +26,17 @@ RSpec.describe 'The applications index page,' do
     end
   end
 
-  it 'has show edit and delete for each application' do
+  it 'has show and delete for each application based on admin or not' do
     Application.all.each do |app|
-      within "#app_btns_id_#{app.id}" do
+      within "#app_id_#{app.id}" do
         expect(page).to have_link('Show')
-        expect(page).to have_link('Edit')
-        expect(page).to have_link('Destroy')
+      end
+
+      visit '/admin/applications'
+
+      within "#app_id_#{app.id}" do
+        expect(page).to have_link('Show')
+        expect(page).to have_link('Destroy', href: "/admin/applications/#{app.id}")
       end
     end
   end
@@ -40,27 +45,20 @@ RSpec.describe 'The applications index page,' do
     describe 'show,' do
       it 'navigates to the show page' do
         app = Application.first
-        within "#app_btns_id_#{app.id}" do
+        within "#app_id_#{app.id}" do
           click_link 'Show'
           current_path.should eq application_path(app.id)
         end
       end
     end
-    describe 'edit,' do
-      it 'navigates to the edit page' do
-        app = Application.first
-        within "#app_btns_id_#{app.id}" do
-          click_link 'Edit'
-          current_path.should eq edit_application_path(app)
-        end
-      end
-    end
+
     describe 'delete,' do
       it 'navigates to the index page' do
+        visit '/admin/applications'
         app = Application.first
-        within "#app_btns_id_#{app.id}" do
+        within "#app_id_#{app.id}" do
           click_link 'Destroy'
-          current_path.should eq applications_path
+          current_path.should eq '/admin/applications'
         end
       end
     end

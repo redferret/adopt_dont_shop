@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_000758) do
   create_table "applications_pets", id: false, force: :cascade do |t|
     t.bigint "application_id", null: false
     t.bigint "pet_id", null: false
+    t.string "status", default: "waiting"
     t.index ["application_id"], name: "index_applications_pets_on_application_id"
     t.index ["pet_id"], name: "index_applications_pets_on_pet_id"
   end
