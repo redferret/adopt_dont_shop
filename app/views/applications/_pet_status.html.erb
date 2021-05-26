@@ -1,0 +1,9 @@
+<% if pet.status(application.id) == 'approved' %>
+  <span class='badge badge-success' role='alert'>Approved!</span>
+<% elsif pet.status(application.id) == 'rejected' %>
+  <span class='badge badge-danger' role='alert'>Rejected</span>
+<% elsif pet.reviewed_on_another(application) %>
+  <span class='badge badge-warning' role='alert'>
+    Already approved for Adoption
+  </span>
+<% end %>
