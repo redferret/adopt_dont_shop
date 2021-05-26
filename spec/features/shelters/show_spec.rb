@@ -39,4 +39,11 @@ RSpec.describe 'the shelter show' do
 
     expect(page).to have_current_path("/shelters/#{@shelter.id}/pets")
   end
+
+  it 'displays a link for an admin to show pending applications for shelter' do
+    expect(page).to have_link("Show Pets")
+    click_link("Pending Applications")
+
+    expect(page).to have_current_path("/admin/shelters/#{@shelter.id}/applications")
+  end
 end

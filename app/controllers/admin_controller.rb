@@ -4,10 +4,6 @@ class AdminController < ApplicationController
     @shelters_with_pending_apps = Shelter.shelters_with_pending_applications
   end
 
-  def show
-    @shelter = Shelter.find(params[:id])
-  end
-
   def show_pending_applications
     render 'applications/index', locals: {
       applications: Application.order(status: :desc).where.not(status: 'In Progress')
