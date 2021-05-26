@@ -34,7 +34,7 @@ RSpec.describe 'the shelter show' do
   end
 
   it 'displays a link to the shelters pets index' do
-    expect(page).to have_link("All pets at #{@shelter.name}")
+    expect(page).to have_link("Show Pets")
     click_link("Show Pets")
 
     expect(page).to have_current_path("/shelters/#{@shelter.id}/pets")

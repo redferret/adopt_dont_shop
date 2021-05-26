@@ -26,12 +26,12 @@ RSpec.describe 'The new application page,' do
       end
 
       within '#applications_form' do
-        click_button
+        click_button 'Create Application'
       end
 
       new_application = Application.first
 
-      current_path.should eq application_path(new_application.id)
+      current_path.should eq applications_path
 
       new_applicant = new_application.applicant
       new_address = new_applicant.address
@@ -58,7 +58,7 @@ RSpec.describe 'The new application page,' do
       end
 
       within '#applications_form' do
-        click_button
+        click_button 'Create Application'
       end
 
       current_path.should eq applications_path
@@ -77,7 +77,7 @@ RSpec.describe 'The new application page,' do
       end
 
       within '#applications_form' do
-        click_button
+        click_button 'Create Application'
       end
 
       current_path.should eq applications_path
