@@ -27,7 +27,7 @@ RSpec.describe 'the shelter show' do
   end
 
   it "allows the user to delete a shelter" do
-    click_on("Delete #{@shelter.name}")
+    click_on("Delete")
 
     expect(page).to have_current_path('/shelters')
     expect(page).to_not have_content(@shelter.name)
@@ -35,7 +35,7 @@ RSpec.describe 'the shelter show' do
 
   it 'displays a link to the shelters pets index' do
     expect(page).to have_link("All pets at #{@shelter.name}")
-    click_link("All pets at #{@shelter.name}")
+    click_link("Show Pets")
 
     expect(page).to have_current_path("/shelters/#{@shelter.id}/pets")
   end
