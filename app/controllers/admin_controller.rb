@@ -29,14 +29,14 @@ class AdminController < ApplicationController
   def approve_pet
     @pet = Pet.find(params[:id])
     @application = Application.find(params[:application_id])
-    @pet.update_pet_status_for_application(@application.id, 'approved')
+    ApplicationsPets.update_status_on(@application, @pet, 'approved')
     review_application
   end
 
   def reject_pet
     @pet = Pet.find(params[:id])
     @application = Application.find(params[:application_id])
-    @pet.update_pet_status_for_application(@application.id, 'rejected')
+    ApplicationsPets.update_status_on(@application, @pet, 'rejected')
 
     review_application
   end
@@ -57,9 +57,6 @@ class AdminController < ApplicationController
 
     if @application.save
       flash[:notice] = 'Review Processed'
-      redirect_to "/admin/applications/#{@application.id}"
-    else
-      flash[:alert] = "Something went wrong"
       redirect_to "/admin/applications/#{@application.id}"
     end
   end

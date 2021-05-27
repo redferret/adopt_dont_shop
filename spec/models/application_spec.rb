@@ -20,26 +20,34 @@ RSpec.describe Application, type: :model do
   end
 
   describe 'class method,' do
+    before :each do
+      @shelter = FactoryBot.create(:shelter)
+      pet1 = FactoryBot.create(:pet, shelter: @shelter)
+      pet2 = FactoryBot.create(:pet, shelter: @shelter)
+
+      @app1 = FactoryBot.create(:application, status: 'Pending')
+      @app2 = FactoryBot.create(:application, status: 'Pending')
+      @app3 = FactoryBot.create(:application, status: 'Pending')
+
+      @app1.pets << pet1
+      @app2.pets << pet2
+    end
+
+    after :each do
+      @shelter.destroy
+      @app1.destroy
+      @app2.destroy
+      @app3.destroy
+    end
+
+    describe '::pending_apps' do
+      it 'returns all pending applications' do
+        apps = Application.pending_apps
+        expect(apps).to eq [@app1, @app2, @app3]
+      end
+    end
+
     describe '::all_for_shelter' do
-      before :all do
-        @shelter = FactoryBot.create(:shelter)
-        pet1 = FactoryBot.create(:pet, shelter: @shelter)
-        pet2 = FactoryBot.create(:pet, shelter: @shelter)
-
-        @app1 = FactoryBot.create(:application, status: 'Pending')
-        @app2 = FactoryBot.create(:application, status: 'Pending')
-        @app3 = FactoryBot.create(:application, status: 'Pending')
-
-        @app1.pets << pet1
-        @app2.pets << pet2
-      end
-
-      after :all do
-        @shelter.destroy
-        @app1.destroy
-        @app2.destroy
-        @app3.destroy
-      end
       it 'returns all the pending applications for the given shelter id' do
         apps = Application.all_for_shelter(@shelter.id)
         expect(apps).to eq [@app1, @app2]

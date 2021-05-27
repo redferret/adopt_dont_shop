@@ -28,7 +28,7 @@ class Application < ApplicationRecord
 
     if has_rejections
       self.status = 'Rejected'
-      ApplicationsPets.update_all_pet_statuses_on(self, 'waiting')
+      ApplicationsPets.update_all_pet_statuses_on(self, 'rejected')
     elsif no_rejections && no_pending_pets
       self.status = 'Accepted'
       pets.update_all(adoptable: false)
