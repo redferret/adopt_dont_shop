@@ -13,35 +13,26 @@ class Application < ApplicationRecord
     self.status ||= 'New'
   end
 
-  def rejected_pet_count
-    ApplicationsPets.where({status: 'rejected', application_id: id}).count
-  end
-
-  def pending_pet_count
-    ApplicationsPets.where({status: 'pending', application_id: id}).count
+  def self.pending_apps
+    order(status: :desc).where(status: 'Pending')
   end
 
   def already_adopted_count
     pets.where(adoptable:false).count
   end
 
-  def update_all_pet_statuses(status)
-    ApplicationsPets.where(application_id: id).update_all(status: status)
-  end
-
   def review_status
-    has_rejections = rejected_pet_count > 0 || already_adopted_count > 0
-    no_rejections = rejected_pet_count == 0
-    no_pending_pets = pending_pet_count == 0
+    has_rejections = ApplicationsPets.has_rejections_on(self)
+    no_rejections = ApplicationsPets.no_rejections_on(self)
+    no_pending_pets = ApplicationsPets.no_pending_pets_on(self)
 
     if has_rejections
       self.status = 'Rejected'
-      update_all_pet_statuses('waiting')
+      ApplicationsPets.update_all_pet_statuses_on(self, 'waiting')
     elsif no_rejections && no_pending_pets
       self.status = 'Accepted'
       pets.update_all(adoptable: false)
     end
-
   end
 
   def status_badge
@@ -70,7 +61,7 @@ class Application < ApplicationRecord
   end
 
   def self.all_for_shelter(shelter_id)
-    Application.where(status: 'Pending').joins(:pets).where({pets: {shelter_id: shelter_id}}).group(:id)
+    where(status: 'Pending').joins(:pets).where({pets: {shelter_id: shelter_id}}).group(:id)
   end
 
   def can_not_edit_description

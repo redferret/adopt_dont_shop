@@ -18,8 +18,8 @@ class Pet < ApplicationRecord
     status(application_id) == 'pending'
   end
 
-  def update_status_for_application(application_id, status)
-    ApplicationsPets.where({application_id: application_id, pet_id: id}).update_all(status: status)
+  def self.search_adoptable_pet(search_pet_by)
+    search(search_pet_by).where(adoptable: true)
   end
 
   def not_been_approved(application_id)

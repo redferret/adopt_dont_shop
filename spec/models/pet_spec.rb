@@ -40,7 +40,7 @@ RSpec.describe Pet, type: :model do
       it 'returns the status of the pet for the given application id' do
         app = FactoryBot.create(:application)
         app.pets << @pet_2
-        @pet_2.update_status_for_application(app.id, 'pending')
+        ApplicationsPets.update_status_on(app, @pet_2, 'pending')
         actual_status = @pet_2.status(app.id)
 
         expect(actual_status).to eq 'pending'
@@ -56,17 +56,6 @@ RSpec.describe Pet, type: :model do
       it 'returns false if the status is approved for the pet on the given app id' do
         allow_any_instance_of(Pet).to receive(:status).and_return('approved')
         expect(@pet_3.not_reviewed(0)).to eq false
-      end
-    end
-
-    describe '#update_status_for_application' do
-      it 'updates the status of the pet for the given application id and status message' do
-        app = FactoryBot.create(:application)
-        app.pets << @pet_2
-        @pet_2.update_status_for_application(app.id, 'pending')
-        actual_status = @pet_2.status(app.id)
-
-        expect(actual_status).to eq 'pending'
       end
     end
 

@@ -72,52 +72,6 @@ RSpec.describe Application, type: :model do
       end
     end
 
-    describe '#rejected_pet_count' do
-      test = 'gets a list of pets on the application where the pet status is rejected'
-
-      before test do
-        shelter = FactoryBot.create(:shelter)
-        @pet_1 = FactoryBot.create(:pet, shelter: shelter)
-        @pet_2 = FactoryBot.create(:pet, shelter: shelter)
-        @pet_3 = FactoryBot.create(:pet, shelter: shelter)
-
-        @application.pets << @pet_1 << @pet_2 << @pet_3
-        ApplicationsPets.where({application_id: @application.id, pet_id: @pet_1}).update_all(status: 'rejected')
-        ApplicationsPets.where({application_id: @application.id, pet_id: @pet_2}).update_all(status: 'rejected')
-      end
-
-      after test do
-        Shelter.destroy_all
-      end
-
-      it test do
-        expect(@application.rejected_pet_count).to eq 2
-      end
-    end
-
-    describe '#pending_pet_count' do
-      test = 'gets a list of pets on the application where the pet status is pending'
-
-      before test do
-        shelter = FactoryBot.create(:shelter)
-        @pet_1 = FactoryBot.create(:pet, shelter: shelter)
-        @pet_2 = FactoryBot.create(:pet, shelter: shelter)
-        @pet_3 = FactoryBot.create(:pet, shelter: shelter)
-
-        @application.pets << @pet_1 << @pet_2 << @pet_3
-        ApplicationsPets.where({application_id: @application.id, pet_id: @pet_1}).update_all(status: 'pending')
-        ApplicationsPets.where({application_id: @application.id, pet_id: @pet_2}).update_all(status: 'pending')
-      end
-
-      after test do
-        Shelter.destroy_all
-      end
-
-      it test do
-        expect(@application.pending_pet_count).to eq 2
-      end
-    end
-
     describe '#already_adopted_count' do
       test = 'gets a list of pets on the application that are already adopted on another app'
 
@@ -139,30 +93,11 @@ RSpec.describe Application, type: :model do
       end
     end
 
-    describe '#update_all_pet_statuses' do
-      after :all do
-        Shelter.destroy_all
-      end
-      it 'updates all the statuses of each pet to the given status' do
-        shelter = FactoryBot.create(:shelter)
-        pet_1 = FactoryBot.create(:pet, shelter: shelter)
-        pet_2 = FactoryBot.create(:pet, shelter: shelter)
-        pet_3 = FactoryBot.create(:pet, shelter: shelter)
-
-        @application.pets << pet_1 << pet_2 << pet_3
-
-        @application.update_all_pet_statuses('rejected')
-        actual_result = ApplicationsPets.where({application_id: @application.id, status: 'rejected'})
-
-        expect(actual_result.map(&:status)).to eq ['rejected', 'rejected', 'rejected']
-      end
-    end
-
     describe '#review_status' do
       it 'sets the status of the application to rejected with rejected or already adopted pets' do
-        allow_any_instance_of(Application).to receive(:rejected_pet_count).and_return(1)
+        allow(ApplicationsPets).to receive(:rejected_pet_count_on).and_return(1)
         allow_any_instance_of(Application).to receive(:already_adopted_count).and_return(1)
-        allow_any_instance_of(Application).to receive(:pending_pet_count).and_return(0)
+        allow(ApplicationsPets).to receive(:pending_pet_count_on).and_return(0)
 
         @application.review_status
 
@@ -170,9 +105,9 @@ RSpec.describe Application, type: :model do
       end
 
       it 'sets the status of the application to accepted with no pending or rejected pets' do
-        allow_any_instance_of(Application).to receive(:rejected_pet_count).and_return(0)
+        allow(ApplicationsPets).to receive(:rejected_pet_count_on).and_return(0)
         allow_any_instance_of(Application).to receive(:already_adopted_count).and_return(0)
-        allow_any_instance_of(Application).to receive(:pending_pet_count).and_return(0)
+        allow(ApplicationsPets).to receive(:pending_pet_count_on).and_return(0)
 
         @application.review_status
 

@@ -55,14 +55,14 @@ class ApplicationsController < ApplicationController
 
       if (!@application.pets.include?(pet))
         @application.pets << pet
-        pet.update_status_for_application(params[:id], 'pending')
+        ApplicationsPets.update_status_on(@application, pet, 'pending')
       end
 
       redirect_to application_path(params[:id])
     elsif params[:application][:search_pet_by]
       if params[:application][:search_pet_by].present?
         search_pet_by = params[:application][:search_pet_by]
-        @pets_found = Pet.search(search_pet_by).where(adoptable: true)
+        @pets_found = Pet.search_adoptable_pet(search_pet_by)
       end
       render_show
     else

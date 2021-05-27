@@ -6,7 +6,7 @@ class AdminController < ApplicationController
 
   def show_pending_applications
     render 'applications/index', locals: {
-      applications: Application.order(status: :desc).where.not(status: 'In Progress')
+      applications: Application.pending_apps
     }
   end
 
@@ -29,14 +29,14 @@ class AdminController < ApplicationController
   def approve_pet
     @pet = Pet.find(params[:id])
     @application = Application.find(params[:application_id])
-    @pet.update_status_for_application(@application.id, 'approved')
+    @pet.update_pet_status_for_application(@application.id, 'approved')
     review_application
   end
 
   def reject_pet
     @pet = Pet.find(params[:id])
     @application = Application.find(params[:application_id])
-    @pet.update_status_for_application(@application.id, 'rejected')
+    @pet.update_pet_status_for_application(@application.id, 'rejected')
 
     review_application
   end
