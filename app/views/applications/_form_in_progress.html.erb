@@ -1,0 +1,11 @@
+<p>
+  <strong>Applicant's Name:</strong>
+  <%= applicant.name %>
+</p>
+
+<%= render partial: 'applications/address', locals: { address: applicant.address } %>
+
+<div class="form-group">
+  <%= form.label :description, 'Why I would make a good home:' %>
+  <%= form.text_area :description, disabled: application.can_not_edit_description, class:'form-control' %>
+</div>
