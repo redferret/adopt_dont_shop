@@ -16,7 +16,7 @@
               <%= link_to 'Reject', "/admin/applications/#{application.id}/pets/#{pet.id}/reject", id: "reject_pet_#{pet.id}", method: :patch,
                   class:'badge badge-danger' %>
             <% elsif admin_view %>
-              <%= render partial: 'applications/pet_status', locals: { application: application, pet: pet} %>
+              <%= render partial: pet_status, locals: { application: application, pet: pet} %>
               <% if pet.reviewed_on_another(application) %>
                 <%= link_to 'Reject', "/admin/applications/#{application.id}/pets/#{pet.id}/reject", id: "reject_pet_#{pet.id}", method: :patch,
                     class:'badge badge-danger' %>

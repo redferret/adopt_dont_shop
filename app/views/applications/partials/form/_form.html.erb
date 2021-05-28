@@ -2,15 +2,15 @@
 
   <% if application.is_new? %>
 
-    <%= render partial: 'applications/form_new', locals: { address: Address.new, form: form }%>
+    <%= render partial: new_application_form, locals: { address: Address.new, form: form }%>
 
   <% elsif application.in_progress? %>
 
-    <%= render partial: 'applications/form_in_progress', locals: { applicant: applicant, application: application, form: form } %>
+    <%= render partial: in_progress_application_form, locals: { applicant: applicant, application: application, form: form } %>
 
   <% elsif application.pending? %>
 
-    <%= render partial: 'applications/form_pending', locals: { applicant: applicant, application: application, form: form } %>
+    <%= render partial: pending_application_form, locals: { applicant: applicant, application: application, form: form } %>
 
   <% end %>
 

@@ -1,10 +1,10 @@
 <% if application.in_progress? &&  !(defined?(admin_view) && admin_view) %>
-  <%= render partial: 'applications/search_pets', locals: {application: application, pets_found: pets_found} %>
+  <%= render partial: search_for_pet, locals: {application: application, pets_found: pets_found} %>
 <% end %>
 
-<%= render partial: 'applications/pets_wanted', locals: {application: application, admin_view: defined?(admin_view) && admin_view} %>
+<%= render partial: list_of_wanted_pets, locals: {application: application, admin_view: defined?(admin_view) && admin_view} %>
 
-<%= render partial: 'applications/form', locals: {application: application, applicant: application.applicant} %>
+<%= render partial: application_form, locals: {application: application, applicant: application.applicant} %>
 
 <h4>Status: <%= application.status_badge %></h4>
 

@@ -3,7 +3,7 @@
   <%= text_field :applicant, :name, class:'form-control' %>
 </div>
 
-<%= render partial: 'applications/address_form', locals: { address: address } %>
+<%= render partial: address_form, locals: { address: address } %>
 
 <div class="form-group">
   <%= form.submit 'Create Application', class:'btn btn-success btn-lg'%>

@@ -3,7 +3,7 @@
   <%= applicant.name %>
 </p>
 
-<%= render partial: 'applications/address', locals: { address: applicant.address } %>
+<%= render partial: address_info, locals: { address: applicant.address } %>
 
 <strong>Why I would make a good home:</strong>
 <p><%= application.description%></p>
